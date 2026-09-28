@@ -1,0 +1,5 @@
+# Copy this file to db.properties (same folder) and put your own password in.
+# db.properties is git-ignored - never commit it (SEC-08).
+db.url=jdbc:mysql://localhost:3306/faculty_db
+db.user=faculty_app
+db.password=CHANGE_ME
