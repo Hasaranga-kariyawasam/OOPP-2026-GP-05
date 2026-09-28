@@ -6,3 +6,13 @@ nbproject/private/
 build/
 dist/
 .env
+
+XAMPP/
+mysql/
+xampp/mysql/data/
+
+target/
+build/
+
+.idea/
+.vscode/
