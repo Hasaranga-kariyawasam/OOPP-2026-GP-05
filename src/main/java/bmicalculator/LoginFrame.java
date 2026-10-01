@@ -9,33 +9,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginFrame extends JFrame {
-    private final JTextField usernameField = new JTextField(15);
-    private final JPasswordField passwordField = new JPasswordField(15);
-    private final JLabel messageLabel = new JLabel(" ", SwingConstants.CENTER);
+    // These fields are created by the GUI Designer from LoginFrame.form
+    private JPanel rootPanel;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private JLabel messageLabel;
+
     private final Map<String, String> env = readEnvFile(".env");
 
     public LoginFrame() {
         super("Login");
+        if (rootPanel == null) {
+            throw new IllegalStateException(
+                    "GUI form not initialised. Rebuild the project (Build > Rebuild Project).");
+        }
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        JPanel form = new JPanel(new GridLayout(2, 2, 8, 8));
-        form.add(new JLabel("Username"));
-        form.add(usernameField);
-        form.add(new JLabel("Password"));
-        form.add(passwordField);
-
-        JButton loginButton = new JButton("Login");
-        loginButton.addActionListener(e -> doLogin());
-        getRootPane().setDefaultButton(loginButton);
+        setContentPane(rootPanel);
 
         messageLabel.setForeground(Color.RED);
-
-        JPanel root = new JPanel(new BorderLayout(8, 12));
-        root.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
-        root.add(form, BorderLayout.NORTH);
-        root.add(messageLabel, BorderLayout.CENTER);
-        root.add(loginButton, BorderLayout.SOUTH);
-        setContentPane(root);
+        loginButton.addActionListener(e -> doLogin());
+        getRootPane().setDefaultButton(loginButton);
 
         pack();
         setLocationRelativeTo(null);
@@ -58,7 +52,6 @@ public class LoginFrame extends JFrame {
         }
     }
 
-    // Reads KEY=VALUE lines from the .env file
     private static Map<String, String> readEnvFile(String fileName) {
         Map<String, String> map = new HashMap<>();
         try {
@@ -69,7 +62,7 @@ public class LoginFrame extends JFrame {
                 map.put(line.substring(0, i).trim(), line.substring(i + 1).trim());
             }
         } catch (IOException e) {
-            // file not found: map stays empty, login will show a message
+            // file not found: map stays empty, login shows a message
         }
         return map;
     }
