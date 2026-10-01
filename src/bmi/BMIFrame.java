@@ -1,9 +1,9 @@
-package bmicalculator;
+package bmi;
 
 import javax.swing.*;
 
 public class BMIFrame extends JFrame {
-    // These fields are created by the GUI Designer from BMIFrame.form
+    // These fields come from BMIFrame.form (GUI Designer)
     private JPanel rootPanel;
     private JComboBox<String> unitBox;
     private JLabel heightLabel;
@@ -13,13 +13,10 @@ public class BMIFrame extends JFrame {
     private JButton submitButton;
     private JButton clearButton;
     private JLabel answerLabel;
+    private JTextArea referenceArea;
 
     public BMIFrame() {
         super("BMI Calculator");
-        if (rootPanel == null) {
-            throw new IllegalStateException(
-                    "GUI form not initialised. Rebuild the project (Build > Rebuild Project).");
-        }
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(rootPanel);
 
