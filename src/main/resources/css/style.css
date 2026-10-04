@@ -11,3 +11,66 @@
 .top-bar .label { -fx-text-fill: white; }
 .side-menu { -fx-background-color: #f4f6f9; -fx-padding: 15; }
 .menu-button { -fx-pref-width: 180; -fx-alignment: CENTER_LEFT; }
+
+/* ================= Technical Officer dashboard ================= */
+.to-root { -fx-background-color: #f1f5f9; -fx-font-family: "Segoe UI"; }
+
+/* Sidebar */
+.to-sidebar { -fx-background-color: #0f172a; }
+.to-brand-title { -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; }
+.to-brand-sub { -fx-text-fill: #94a3b8; -fx-font-size: 12px; }
+
+.to-nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 11 14 11 14;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+.to-nav-btn:hover { -fx-background-color: #1e293b; -fx-text-fill: white; }
+.to-nav-active, .to-nav-active:hover {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.to-logout-btn {
+    -fx-background-color: #7f1d1d;
+    -fx-text-fill: #fecaca;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 11 14 11 14;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+.to-logout-btn:hover { -fx-background-color: #b91c1c; -fx-text-fill: white; }
+
+/* Header */
+.to-page-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0f172a; }
+.to-date { -fx-font-size: 13px; -fx-text-fill: #64748b; }
+.to-user-chip {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 8 16 8 16;
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 8, 0, 0, 2);
+}
+
+/* Cards & panels */
+.to-card, .to-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 16 18 16 18;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 12, 0, 0, 3);
+}
+.to-card-orange { -fx-border-color: transparent transparent transparent #f59e0b; -fx-border-width: 0 0 0 5; -fx-border-radius: 14; }
+.to-card-blue   { -fx-border-color: transparent transparent transparent #3b82f6; -fx-border-width: 0 0 0 5; -fx-border-radius: 14; }
+.to-card-green  { -fx-border-color: transparent transparent transparent #10b981; -fx-border-width: 0 0 0 5; -fx-border-radius: 14; }
+
+.to-card-label { -fx-text-fill: #64748b; -fx-font-size: 13px; }
+.to-card-value { -fx-text-fill: #0f172a; -fx-font-size: 32px; -fx-font-weight: bold; }
+.to-card-hint  { -fx-text-fill: #94a3b8; -fx-font-size: 12px; }
+.to-panel-title { -fx-text-fill: #0f172a; -fx-font-size: 15px; -fx-font-weight: bold; }
