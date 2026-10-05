@@ -1,0 +1,13 @@
+.root { -fx-font-family: "Segoe UI", "Arial"; -fx-font-size: 14px; }
+.title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1f3a5f; }
+.subtitle { -fx-text-fill: #666666; }
+.error-label { -fx-text-fill: #c0392b; }
+.login-card { -fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;
+              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 3); }
+.login-bg { -fx-background-color: #eef2f7; }
+.primary-button { -fx-background-color: #1f3a5f; -fx-text-fill: white; -fx-background-radius: 6; -fx-cursor: hand; }
+.primary-button:hover { -fx-background-color: #2b4f80; }
+.top-bar { -fx-background-color: #1f3a5f; -fx-padding: 12 20; }
+.top-bar .label { -fx-text-fill: white; }
+.side-menu { -fx-background-color: #f4f6f9; -fx-padding: 15; }
+.menu-button { -fx-pref-width: 180; -fx-alignment: CENTER_LEFT; }
