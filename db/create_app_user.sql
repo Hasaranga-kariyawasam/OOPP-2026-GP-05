@@ -12,7 +12,7 @@
 
 DROP USER IF EXISTS 'faculty_app'@'localhost';
 
-CREATE USER 'faculty_app'@'localhost' IDENTIFIED BY 'CHANGE_ME';
+CREATE USER 'faculty_app'@'localhost' IDENTIFIED BY '1234';
 
 -- Only the privileges the app needs: no DROP / ALTER / CREATE.
 GRANT SELECT, INSERT, UPDATE, DELETE ON faculty_db.* TO 'faculty_app'@'localhost';
