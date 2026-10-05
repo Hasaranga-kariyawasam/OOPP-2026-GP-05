@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.admin.AdminDashboardController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-bar">
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Admin Dashboard" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleLogout" text="Logout" />
+        </HBox>
+    </top>
+    <left>
+        <VBox prefHeight="495.0" prefWidth="133.0" spacing="8" styleClass="side-menu" stylesheets="@../../css/style.css">
+            <Button contentDisplay="RIGHT" prefHeight="27.0" prefWidth="108.0" styleClass="menu-button" text="Manage Users" />
+            <Button prefHeight="27.0" prefWidth="108.0" styleClass="menu-button" text="Manage Courses" />
+            <Button prefHeight="27.0" prefWidth="108.0" styleClass="menu-button" text="Manage Notices" />
+            <Button prefHeight="27.0" prefWidth="108.0" styleClass="menu-button" stylesheets="@../../css/style.css" text="Manage Timetables" />
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="CENTER" prefHeight="495.0" prefWidth="597.0" spacing="10">
+            <Label fx:id="welcomeLabel" styleClass="title" />
+            <Label fx:id="roleLabel" styleClass="subtitle" />
+        </VBox>
+    </center>
+</BorderPane>

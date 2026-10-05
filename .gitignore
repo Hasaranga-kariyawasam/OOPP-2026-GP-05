@@ -1,0 +1,24 @@
+# Build output
+target/
+build/
+dist/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+nbproject/private/
+
+# Secrets (SEC-08) - never commit real DB passwords
+db/db.properties
+.env
+
+# Local DB files
+XAMPP/
+mysql/
+xampp/mysql/data/
+
+# OS
+.DS_Store
+Thumbs.db
