@@ -7,13 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Console check that the database is reachable and the schema is loaded.
- * Run this first, before touching any JavaFX code.
- *
- *   IntelliJ: right click -> Run 'DBTest.main()'
- *   Maven:    mvn compile exec:java
- */
+
 public class DBTest {
 
     public static void main(String[] args) {
