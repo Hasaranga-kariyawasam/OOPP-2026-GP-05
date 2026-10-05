@@ -1,0 +1,10 @@
+com\faculty\model\admin\Admin.class
+com\faculty\controller\student\StudentDashboardController.class
+com\faculty\model\lecture\Lecturer.class
+com\faculty\service\SessionManager.class
+com\faculty\controller\to\TechnicalOfficerDashboardController.class
+com\faculty\controller\LoginController.class
+com\faculty\model\student\Undergraduate.class
+com\faculty\model\to\TechnicalOfficer.class
+com\faculty\controller\lecture\LecturerDashboardController.class
+com\faculty\controller\admin\AdminDashboardController.class
