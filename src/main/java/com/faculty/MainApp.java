@@ -16,6 +16,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
+
         switchScene("/fxml/login.fxml", "Faculty Management System - Login");
         stage.show();
     }
