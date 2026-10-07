@@ -1,0 +1,261 @@
+/* ================= ADMIN PANEL v5 - black accents =================
+   Near-black buttons / active items, subtle dark header, near-white sidebar,
+   soft borderless cards, background image, hidden scrollbars. Edit the colour variables below to retheme. */
+.adm-root {
+    -adm-ink: #111827;            /* near-black: buttons, active menu item, today in calendar */
+    -adm-ink-2: #1f2937;          /* hover shade of the above */
+    -adm-primary: #111827;
+    -adm-text: #111827;           /* text */
+    -adm-muted: #6b7280;          /* secondary text */
+    -adm-soft: #eef1f5;           /* light grey (hover / selected / tiles) */
+
+    -fx-background-color: #f4f7fd;
+    -fx-background-image: url("../img/login-bg.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-family: "Segoe UI", "Arial";
+}
+
+/* ---------- header panel (small dark gradient, no lines) ---------- */
+.adm-topbar {
+    -fx-background-color: linear-gradient(to right, #0b0f19, #1f2937);
+    -fx-padding: 10 24;
+}
+.adm-logo-circle { -fx-background-color: white; -fx-background-radius: 22; }
+.adm-top-title { -fx-text-fill: white; -fx-font-size: 17px; -fx-font-weight: bold; }
+.adm-top-sub { -fx-text-fill: rgba(255,255,255,0.80); -fx-font-size: 11px; }
+
+.adm-icon-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-padding: 8 10;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.adm-icon-btn:hover { -fx-background-color: rgba(255,255,255,0.18); }
+.adm-bell { -fx-fill: white; }
+
+.adm-profile { -fx-padding: 4 10 4 14; -fx-background-radius: 10; -fx-cursor: hand; }   /* click = edit profile */
+.adm-profile:hover { -fx-background-color: rgba(255,255,255,0.16); }
+.adm-avatar { -fx-stroke: transparent; -fx-stroke-width: 0; }
+.adm-initials { -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; }
+.adm-profile-name { -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; }
+.adm-profile-meta { -fx-text-fill: rgba(255,255,255,0.80); -fx-font-size: 11px; }
+
+/* ---------- side panel (a little darker than the page, no border line) ---------- */
+.adm-sidebar {
+    -fx-background-color: #fafbfc;
+    -fx-padding: 10 12 16 12;
+}
+.adm-navscroll, .adm-navscroll > .viewport { -fx-background-color: transparent; }
+.adm-navscroll { -fx-padding: 0; -fx-background-insets: 0; }
+.adm-menu-caption {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 14 0 4 10;
+}
+.adm-nav {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-text-fill: -adm-text;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 13 16;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.adm-nav:hover { -fx-background-color: #eef1f5; }
+.adm-nav.active {
+    -fx-background-color: -adm-ink;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Sign out: solid red */
+.adm-signout {
+    -fx-background-color: #dc2626;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 12 12;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.adm-signout:hover { -fx-background-color: #b91c1c; }
+
+/* ---------- hide the side-panel / page scrollbars (mouse wheel still scrolls) ---------- */
+.adm-navscroll > .scroll-bar, .adm-scroll > .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-padding: 0;
+}
+.adm-navscroll > .scroll-bar .increment-button, .adm-navscroll > .scroll-bar .decrement-button,
+.adm-scroll > .scroll-bar .increment-button, .adm-scroll > .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+
+/* ---------- content ---------- */
+.adm-content { -fx-padding: 22 26 22 26; }
+.adm-scroll, .adm-scroll > .viewport { -fx-background-color: transparent; }
+.adm-scroll { -fx-padding: 0; -fx-background-insets: 0; }
+.adm-overview { -fx-padding: 0 4 4 0; }
+
+/* Every box uses ONE style: white, rounded, soft shadow, no border lines */
+.adm-banner, .adm-card, .adm-stat {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 14;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(17,24,39,0.06), 8, 0, 0, 1);
+}
+.adm-banner { -fx-padding: 20 26; }
+.adm-card { -fx-padding: 20 22; }
+.adm-stat { -fx-padding: 14 18; -fx-spacing: 4; }
+
+/* simple welcome */
+.adm-banner-title { -fx-text-fill: -adm-text; -fx-font-size: 22px; -fx-font-weight: bold; }
+.adm-banner-text { -fx-text-fill: -adm-muted; -fx-font-size: 13px; }
+.adm-banner-date { -fx-text-fill: -adm-primary; -fx-font-size: 12px; -fx-font-weight: bold; }
+
+.adm-card-title { -fx-text-fill: -adm-text; -fx-font-size: 18px; -fx-font-weight: bold; }
+.adm-muted { -fx-text-fill: -adm-muted; -fx-font-size: 13px; }
+
+/* stat cards - same colour on all three */
+.adm-stat-a, .adm-stat-b, .adm-stat-c { -fx-border-width: 0; }
+.adm-stat-label { -fx-text-fill: -adm-muted; -fx-font-size: 13px; }
+.adm-stat-value { -fx-font-size: 28px; -fx-font-weight: bold; }
+.adm-c-primary, .adm-c-green, .adm-c-amber { -fx-text-fill: -adm-ink; }
+
+.adm-quick {
+    -fx-background-color: -adm-soft;
+    -fx-background-radius: 8;
+    -fx-text-fill: -adm-text;
+    -fx-font-size: 13px;
+    -fx-padding: 9 18;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.adm-quick:hover {
+    -fx-background-color: -adm-ink;
+    -fx-text-fill: white;
+}
+
+/* ---------- calendar ---------- */
+.adm-cal-title { -fx-text-fill: -adm-text; -fx-font-size: 16px; -fx-font-weight: bold; }
+.adm-cal-nav {
+    -fx-background-color: -adm-ink;
+    -fx-background-radius: 7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 3 10;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.adm-cal-nav:hover { -fx-background-color: -adm-ink-2; }
+.adm-cal-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: -adm-primary;
+    -fx-font-size: 12px;
+    -fx-padding: 3 6;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.adm-cal-link:hover { -fx-underline: true; }
+.adm-cal-dow { -fx-text-fill: #9ca3af; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 4 0 6 0; }
+.adm-cal-day {
+    -fx-text-fill: -adm-text;
+    -fx-font-size: 13px;
+    -fx-padding: 8 0;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.adm-cal-day:hover { -fx-background-color: -adm-soft; }
+.adm-cal-other { -fx-text-fill: #cbd5e1; }
+.adm-cal-selected { -fx-background-color: -adm-soft; }
+.adm-cal-today, .adm-cal-today:hover {
+    -fx-background-color: -adm-ink;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* =====================================================================
+   REUSABLE STYLES FOR THE OTHER ADMIN VIEWS (students, courses, ...)
+   Just add these styleClass names in each view's FXML.
+   ===================================================================== */
+.adm-page-title { -fx-text-fill: -adm-text; -fx-font-size: 22px; -fx-font-weight: bold; }
+
+/* text fields / combo boxes / date pickers */
+.adm-field, .adm-combo {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(17,24,39,0.18);
+    -fx-border-radius: 8;
+    -fx-text-fill: -adm-text;
+    -fx-prompt-text-fill: #9ca3af;
+    -fx-padding: 8 12;
+}
+.adm-field:focused, .adm-combo:focused { -fx-background-color: white; -fx-border-color: #111827; }
+
+/* main action button (same as LOGIN) */
+.adm-btn {
+    -fx-background-color: -adm-ink;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+}
+.adm-btn:hover { -fx-background-color: -adm-ink-2; }
+.adm-btn-danger {
+    -fx-background-color: #dc2626;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+}
+.adm-btn-light {
+    -fx-background-color: -adm-soft;
+    -fx-background-radius: 8;
+    -fx-text-fill: -adm-text;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+}
+
+/* tables */
+.adm-table {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+    -fx-border-width: 0;
+    -fx-control-inner-background: rgba(255,255,255,0.92);
+    -fx-table-cell-border-color: transparent;
+}
+.adm-table .column-header-background { -fx-background-color: -adm-soft; -fx-background-radius: 12 12 0 0; }
+.adm-table .column-header, .adm-table .filler { -fx-background-color: transparent; -fx-border-width: 0; }
+.adm-table .column-header .label { -fx-text-fill: -adm-text; -fx-font-weight: bold; }
+.adm-table .table-row-cell { -fx-text-fill: -adm-text; }
+.adm-table .table-row-cell:selected { -fx-background-color: -adm-soft; }
+.adm-table .table-row-cell:selected .text { -fx-fill: -adm-text; }
+
+/* field captions + profile page */
+.adm-label { -fx-text-fill: -adm-text; -fx-font-size: 12px; -fx-font-weight: bold; }
+.adm-avatar-big { -fx-stroke: transparent; -fx-stroke-width: 0; }
+.adm-initials-big { -fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold; }
+.adm-combo .list-cell { -fx-text-fill: -adm-text; }
+
+/* ---------- dashboard summary tiles (inside the Student / GPA & Reports cards) ---------- */
+.adm-tile { -fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-padding: 12 16; -fx-spacing: 3; }
+.adm-tile-label { -fx-text-fill: -adm-muted; -fx-font-size: 12px; }
+.adm-tile-value { -fx-text-fill: -adm-ink; -fx-font-size: 22px; -fx-font-weight: bold; }

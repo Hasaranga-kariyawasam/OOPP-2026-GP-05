@@ -11,7 +11,7 @@ dist/
 nbproject/private/
 
 # Secrets (SEC-08) - never commit real DB passwords
-db/db.properties
+#db/db.properties
 .env
 
 # Local DB files
