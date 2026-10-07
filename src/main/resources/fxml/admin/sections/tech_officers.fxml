@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.admin.TechOfficersSectionController">
+<VBox spacing="16" styleClass="adm-overview">
+    <VBox spacing="12" styleClass="adm-card">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label styleClass="adm-card-title" text="Manage Technical Officers" />
+            <Label fx:id="countLabel" styleClass="adm-muted" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" onAction="#handleSearch" prefWidth="260.0" promptText="Search name, username or email" styleClass="adm-field" />
+            <Button onAction="#handleSearch" styleClass="adm-btn" text="Search" />
+        </HBox>
+        <TableView fx:id="table" minHeight="200.0" prefHeight="280.0" styleClass="adm-table" />
+    </VBox>
+    <VBox spacing="14" styleClass="adm-card">
+        <Label styleClass="adm-card-title" text="Technical Officer Details" />
+        <GridPane hgap="18" vgap="12">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="50.00" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="50.00" />
+            </columnConstraints>
+            <VBox spacing="5" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label styleClass="adm-label" text="First Name" />
+                <TextField fx:id="firstField" promptText="" styleClass="adm-field" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="5" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label styleClass="adm-label" text="Last Name" />
+                <TextField fx:id="lastField" promptText="" styleClass="adm-field" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="5" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label styleClass="adm-label" text="Username" />
+                <TextField fx:id="usernameField" promptText="Unique login username" styleClass="adm-field" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="5" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label styleClass="adm-label" text="Email" />
+                <TextField fx:id="emailField" promptText="name@faculty.local" styleClass="adm-field" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="5" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Label styleClass="adm-label" text="Department" />
+                <ComboBox fx:id="deptBox" promptText="" styleClass="adm-combo" maxWidth="Infinity" />
+            </VBox>
+            <VBox spacing="5" GridPane.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Label styleClass="adm-label" text="Password (leave blank on update to keep)" />
+                <PasswordField fx:id="passwordField" promptText="Min 6 characters" styleClass="adm-field" maxWidth="Infinity" />
+            </VBox>
+        </GridPane>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button onAction="#handleClear" styleClass="adm-btn-light" text="Clear" />
+            <Button onAction="#handleDelete" styleClass="adm-btn-danger" text="Delete" />
+            <Button onAction="#handleUpdate" styleClass="adm-btn-light" text="Update Info" />
+            <Button onAction="#handleRegister" styleClass="adm-btn" text="Register Technical Officer" />
+        </HBox>
+    </VBox>
+</VBox>
+</ScrollPane>
