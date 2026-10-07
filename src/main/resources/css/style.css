@@ -65,8 +65,8 @@
 
 /* square-ish button with a soft blue gradient */
 .login-button {
-    -fx-background-color: linear-gradient(to bottom, #87abea, #1d4ed8);
-    -fx-background-radius: 4;
+    -fx-background-color: linear-gradient(to left, #327af8, #1d4ed8);
+    -fx-background-radius: 7;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -75,7 +75,7 @@
     -fx-effect: dropshadow(gaussian, rgba(29,78,216,0.35), 10, 0.1, 0, 3);
 }
 .login-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #5a9bff, #2563eb);
+    -fx-background-color: linear-gradient(to bottom, #3a87ff, #2563eb);
 }
 .login-button:pressed {
     -fx-background-color: linear-gradient(to bottom, #1d4ed8, #2563eb);
