@@ -1,4 +1,6 @@
-package com.faculty.model;
+package com.faculty.model.lecture;
+
+import com.faculty.model.Staff;
 
 public class Lecturer extends Staff {
 
@@ -9,7 +11,7 @@ public class Lecturer extends Staff {
 
     @Override
     public String getDashboardFxml() {
-        return "/fxml/lecturer_dashboard.fxml";
+        return "/fxml/lecture/lecturer_dashboard.fxml";
     }
 
     @Override

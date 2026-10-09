@@ -1,4 +1,4 @@
-package com.faculty.controller;
+package com.faculty.controller.lecture;
 
 import com.faculty.MainApp;
 import com.faculty.model.User;
@@ -8,8 +8,8 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 
-/** Shared by all four placeholder dashboards for now. Each role gets its own controller later. */
-public class DashboardController {
+/** Controller for the Lecturer dashboard. */
+public class LecturerDashboardController {
 
     @FXML private Label welcomeLabel;
     @FXML private Label roleLabel;

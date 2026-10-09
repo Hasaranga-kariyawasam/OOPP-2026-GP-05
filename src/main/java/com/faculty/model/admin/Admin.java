@@ -1,10 +1,12 @@
-package com.faculty.model;
+package com.faculty.model.admin;
+
+import com.faculty.model.Staff;
 
 public class Admin extends Staff {
 
     @Override
     public String getDashboardFxml() {
-        return "/fxml/admin_dashboard.fxml";
+        return "/fxml/admin/admin_dashboard.fxml";
     }
 
     @Override

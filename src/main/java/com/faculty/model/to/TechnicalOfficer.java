@@ -1,10 +1,12 @@
-package com.faculty.model;
+package com.faculty.model.to;
+
+import com.faculty.model.Staff;
 
 public class TechnicalOfficer extends Staff {
 
     @Override
     public String getDashboardFxml() {
-        return "/fxml/to_dashboard.fxml";
+        return "/fxml/to/to_dashboard.fxml";
     }
 
     @Override

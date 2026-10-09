@@ -12,65 +12,76 @@
 .side-menu { -fx-background-color: #f4f6f9; -fx-padding: 15; }
 .menu-button { -fx-pref-width: 180; -fx-alignment: CENTER_LEFT; }
 
-/* ================= Technical Officer dashboard ================= */
-.to-root { -fx-background-color: #f1f5f9; -fx-font-family: "Segoe UI"; }
+/* ================= LOGIN PAGE (soft blue background image, glass card) ================= */
+.login-bg {
 
-/* Sidebar */
-.to-sidebar { -fx-background-color: #0f172a; }
-.to-brand-title { -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; }
-.to-brand-sub { -fx-text-fill: #94a3b8; -fx-font-size: 12px; }
-
-.to-nav-btn {
-    -fx-background-color: transparent;
-    -fx-text-fill: #cbd5e1;
-    -fx-font-size: 14px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 11 14 11 14;
-    -fx-background-radius: 10;
-    -fx-cursor: hand;
+    -fx-background-image: url("../img/login-bg.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
 }
-.to-nav-btn:hover { -fx-background-color: #1e293b; -fx-text-fill: white; }
-.to-nav-active, .to-nav-active:hover {
-    -fx-background-color: #3b82f6;
+
+.login-card {
+    -fx-background-color:
+        rgba(255,255,255,0.75),
+        linear-gradient(to bottom, rgba(255,255,255,0.60), rgba(235,242,252,0.30));
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 16, 15;
+    -fx-border-color: rgba(255,255,255,0.85);
+    -fx-border-radius: 16;
+    -fx-padding: 34 36 28 36;
+    -fx-effect: dropshadow(gaussian, rgba(30,64,140,0.25), 32, 0.05, 0, 10);
+}
+
+.login-logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,40,0.20), 10, 0.1, 0, 3);
+}
+
+.login-title {
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f3a5f;
+}
+
+.login-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #4a5a70;
+}
+
+.login-field {
+    -fx-background-color: rgba(255,255,255,0.75);
+    -fx-background-radius: 4;
+    -fx-border-color: rgba(31,58,95,0.20);
+    -fx-border-radius: 4;
+    -fx-text-fill: #1f3a5f;
+    -fx-prompt-text-fill: #8a97a8;
+    -fx-padding: 10 14;
+    -fx-font-size: 14px;
+}
+.login-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: #3b82f6;
+}
+
+/* square-ish button with a soft blue gradient */
+.login-button {
+    -fx-background-color: linear-gradient(to left, #327af8, #1d4ed8);
+    -fx-background-radius: 7;
     -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
-
-.to-logout-btn {
-    -fx-background-color: #7f1d1d;
-    -fx-text-fill: #fecaca;
     -fx-font-size: 14px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 11 14 11 14;
-    -fx-background-radius: 10;
-    -fx-cursor: hand;
-}
-.to-logout-btn:hover { -fx-background-color: #b91c1c; -fx-text-fill: white; }
-
-/* Header */
-.to-page-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0f172a; }
-.to-date { -fx-font-size: 13px; -fx-text-fill: #64748b; }
-.to-user-chip {
-    -fx-background-color: white;
-    -fx-background-radius: 20;
-    -fx-padding: 8 16 8 16;
-    -fx-text-fill: #0f172a;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 8, 0, 0, 2);
+    -fx-padding: 11 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(29,78,216,0.35), 10, 0.1, 0, 3);
+}
+.login-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #3a87ff, #2563eb);
+}
+.login-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1d4ed8, #2563eb);
 }
 
-/* Cards & panels */
-.to-card, .to-panel {
-    -fx-background-color: white;
-    -fx-background-radius: 14;
-    -fx-padding: 16 18 16 18;
-    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 12, 0, 0, 3);
+.login-error {
+    -fx-text-fill: #c0392b;
+    -fx-font-size: 12px;
 }
-.to-card-orange { -fx-border-color: transparent transparent transparent #f59e0b; -fx-border-width: 0 0 0 5; -fx-border-radius: 14; }
-.to-card-blue   { -fx-border-color: transparent transparent transparent #3b82f6; -fx-border-width: 0 0 0 5; -fx-border-radius: 14; }
-.to-card-green  { -fx-border-color: transparent transparent transparent #10b981; -fx-border-width: 0 0 0 5; -fx-border-radius: 14; }
-
-.to-card-label { -fx-text-fill: #64748b; -fx-font-size: 13px; }
-.to-card-value { -fx-text-fill: #0f172a; -fx-font-size: 32px; -fx-font-weight: bold; }
-.to-card-hint  { -fx-text-fill: #94a3b8; -fx-font-size: 12px; }
-.to-panel-title { -fx-text-fill: #0f172a; -fx-font-size: 15px; -fx-font-weight: bold; }

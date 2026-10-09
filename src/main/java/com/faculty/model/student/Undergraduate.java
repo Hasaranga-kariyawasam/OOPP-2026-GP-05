@@ -1,4 +1,6 @@
-package com.faculty.model;
+package com.faculty.model.student;
+
+import com.faculty.model.User;
 
 import java.time.LocalDate;
 
@@ -23,7 +25,7 @@ public class Undergraduate extends User {
 
     @Override
     public String getDashboardFxml() {
-        return "/fxml/student_dashboard.fxml";
+        return "/fxml/student/student_dashboard.fxml";
     }
 
     @Override

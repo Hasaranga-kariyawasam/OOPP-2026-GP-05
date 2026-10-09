@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane stylesheets="@../../css/admin.css" styleClass="adm-root" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.admin.AdminDashboardController">
+
+    <!-- TOP: header panel = logo + system name | notices bell | logged-in profile -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="adm-topbar">
+            <StackPane maxHeight="44.0" maxWidth="44.0" minHeight="44.0" minWidth="44.0" prefHeight="44.0" prefWidth="44.0" styleClass="adm-logo-circle">
+                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../img/FOT.png" />
+                    </image>
+                </ImageView>
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" spacing="1">
+                <Label styleClass="adm-top-title" text="Faculty Management System" />
+                <Label styleClass="adm-top-sub" text="Faculty of Technology - University of Ruhuna" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button onAction="#handleNotices" styleClass="adm-icon-btn">
+                <graphic>
+                    <SVGPath content="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" styleClass="adm-bell" />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Notices" />
+                </tooltip>
+            </Button>
+
+            <HBox alignment="CENTER_LEFT" onMouseClicked="#handleProfile" spacing="12" styleClass="adm-profile">
+                <StackPane>
+                    <Circle fx:id="avatarCircle" radius="21.0" styleClass="adm-avatar" />
+                    <Label fx:id="initialsLabel" styleClass="adm-initials" />
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="1">
+                    <Label fx:id="profileName" styleClass="adm-profile-name" />
+                    <Label fx:id="profileMeta" styleClass="adm-profile-meta" />
+                </VBox>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- LEFT: side panel (white, grouped menu with captions) -->
+    <left>
+        <VBox minWidth="235.0" prefWidth="235.0" spacing="8" styleClass="adm-sidebar">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-navscroll" VBox.vgrow="ALWAYS">
+                <VBox fx:id="navBox" spacing="2">
+                    <Label styleClass="adm-menu-caption" text="DASHBOARD" />
+                    <Button id="overview" fx:id="navOverview" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Dashboard Overview" />
+                    <Label styleClass="adm-menu-caption" text="PEOPLE" />
+                    <Button id="students" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Manage Students" />
+                    <Button id="lecturers" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Manage Lecturers" />
+                    <Button id="tech_officers" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Manage Tech Officers" />
+                    <Label styleClass="adm-menu-caption" text="ACADEMIC" />
+                    <Button id="courses" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Course Management" />
+                    <Button id="medical" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Medical Requests" />
+                    <Button id="attendance" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Attendance Records" />
+                    <Button id="marks" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Marks Management" />
+                    <Label styleClass="adm-menu-caption" text="NOTICES &amp; SCHEDULE" />
+                    <Button id="notices" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Notices" />
+                    <Button id="timetables" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Timetables" />
+                    <Label styleClass="adm-menu-caption" text="ACCOUNT" />
+                    <Button id="profile" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Edit Profile" />
+                </VBox>
+            </ScrollPane>
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="adm-signout" text="Sign Out" />
+        </VBox>
+    </left>
+
+    <!-- CENTER: overview (banner + stats + quick access | calendar) or the selected section -->
+    <center>
+        <StackPane styleClass="adm-content">
+            <ScrollPane fx:id="overviewPane" fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll">
+                <HBox spacing="18" styleClass="adm-overview">
+
+                    <VBox minWidth="0.0" spacing="18" HBox.hgrow="ALWAYS">
+                        <VBox spacing="6" styleClass="adm-banner">
+                            <Label fx:id="welcomeLabel" styleClass="adm-banner-title" wrapText="true" />
+                            <Label styleClass="adm-banner-text" text="Here is what is happening in the faculty today." wrapText="true" />
+                            <Label fx:id="dateLabel" styleClass="adm-banner-date" />
+                        </VBox>
+
+                        <FlowPane hgap="16" vgap="16">
+                            <VBox minWidth="170.0" prefWidth="200.0" styleClass="adm-stat, adm-stat-a">
+                                <Label styleClass="adm-stat-label" text="Total Students" />
+                                <Label fx:id="statStudents" styleClass="adm-stat-value, adm-c-primary" text="-" />
+                            </VBox>
+                            <VBox minWidth="170.0" prefWidth="200.0" styleClass="adm-stat, adm-stat-b">
+                                <Label styleClass="adm-stat-label" text="Total Courses" />
+                                <Label fx:id="statCourses" styleClass="adm-stat-value, adm-c-green" text="-" />
+                            </VBox>
+                            <VBox minWidth="170.0" prefWidth="200.0" styleClass="adm-stat, adm-stat-c">
+                                <Label styleClass="adm-stat-label" text="Faculty Members" />
+                                <Label fx:id="statFaculty" styleClass="adm-stat-value, adm-c-amber" text="-" />
+                            </VBox>
+                        </FlowPane>
+
+                        <VBox spacing="12" styleClass="adm-card">
+                            <Label styleClass="adm-card-title" text="Student Summary" />
+                            <FlowPane hgap="12" vgap="12">
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Regular" />
+                                    <Label fx:id="statRegular" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Repeat" />
+                                    <Label fx:id="statRepeat" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Batch Missed" />
+                                    <Label fx:id="statBatchMissed" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                            </FlowPane>
+                        </VBox>
+
+                        <VBox spacing="12" styleClass="adm-card">
+                            <Label styleClass="adm-card-title" text="GPA Summary &amp; Reports" />
+                            <FlowPane hgap="12" vgap="12">
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Average GPA" />
+                                    <Label fx:id="statAvgGpa" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Highest GPA" />
+                                    <Label fx:id="statTopGpa" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="GPA below 2.0" />
+                                    <Label fx:id="statLowGpa" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Attendance Rate" />
+                                    <Label fx:id="statAttendance" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Pending Medicals" />
+                                    <Label fx:id="statPendingMedical" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                                <VBox minWidth="130.0" prefWidth="150.0" styleClass="adm-tile">
+                                    <Label styleClass="adm-tile-label" text="Notices" />
+                                    <Label fx:id="statNotices" styleClass="adm-tile-value" text="-" />
+                                </VBox>
+                            </FlowPane>
+                        </VBox>
+
+                        <VBox spacing="12" styleClass="adm-card">
+                            <Label styleClass="adm-card-title" text="Quick Access" />
+                            <FlowPane hgap="10" vgap="10">
+                                <Button id="quick-students" onAction="#handleQuick" styleClass="adm-quick" text="Manage Students" />
+                                <Button id="quick-courses" onAction="#handleQuick" styleClass="adm-quick" text="Course Management" />
+                                <Button id="quick-notices" onAction="#handleQuick" styleClass="adm-quick" text="Notices" />
+                                <Button id="quick-timetables" onAction="#handleQuick" styleClass="adm-quick" text="Timetables" />
+                            </FlowPane>
+                        </VBox>
+                    </VBox>
+
+                    <!-- calendar -->
+                    <VBox maxWidth="310.0" minWidth="290.0" prefWidth="300.0" spacing="12" styleClass="adm-card">
+                        <HBox alignment="CENTER_LEFT" spacing="6">
+                            <Label fx:id="calTitle" styleClass="adm-cal-title" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button onAction="#calToday" styleClass="adm-cal-link" text="Today" />
+                            <Button onAction="#calPrev" styleClass="adm-cal-nav" text="&lt;" />
+                            <Button onAction="#calNext" styleClass="adm-cal-nav" text="&gt;" />
+                        </HBox>
+                        <GridPane fx:id="calendarGrid" hgap="2" vgap="2" />
+                        <Label fx:id="calSelected" styleClass="adm-muted" wrapText="true" />
+                    </VBox>
+
+                </HBox>
+            </ScrollPane>
+            <StackPane fx:id="sectionHost" managed="false" visible="false" />
+        </StackPane>
+    </center>
+</BorderPane>
