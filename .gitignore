@@ -22,3 +22,6 @@ xampp/mysql/data/
 # OS
 .DS_Store
 Thumbs.db
+
+# Uploaded files (medical documents, profile pictures)
+uploads/
