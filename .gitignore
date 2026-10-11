@@ -22,3 +22,5 @@ xampp/mysql/data/
 # OS
 .DS_Store
 Thumbs.db
+
+.agentbridge
