@@ -1,4 +1,4 @@
-package com.faculty.util;
+package com.faculty.util.to;
 
 import com.faculty.exception.ValidationException;
 
