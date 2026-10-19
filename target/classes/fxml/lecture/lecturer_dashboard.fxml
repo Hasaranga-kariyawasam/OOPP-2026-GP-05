@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<!-- Reuses the admin.css classes (adm-*) so the lecturer dashboard looks the same as the admin one. -->
+<BorderPane stylesheets="@../../css/admin.css" styleClass="adm-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.lecture.LecturerDashboardController">
+
+    <!-- TOP: logo + system name | logged-in profile -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="adm-topbar">
+            <StackPane maxHeight="44.0" maxWidth="44.0" minHeight="44.0" minWidth="44.0" prefHeight="44.0" prefWidth="44.0" styleClass="adm-logo-circle">
+                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../img/FOT.png" />
+                    </image>
+                </ImageView>
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" spacing="1">
+                <Label styleClass="adm-top-title" text="Faculty Management System" />
+                <Label styleClass="adm-top-sub" text="Faculty of Technology - University of Ruhuna" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+
+            <HBox alignment="CENTER_LEFT" onMouseClicked="#handleProfile" spacing="12" styleClass="adm-profile">
+                <StackPane>
+                    <Circle fx:id="avatarCircle" radius="21.0" styleClass="adm-avatar" />
+                    <Label fx:id="initialsLabel" styleClass="adm-initials" />
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="1">
+                    <Label fx:id="profileName" styleClass="adm-profile-name" />
+                    <Label fx:id="profileMeta" styleClass="adm-profile-meta" />
+                </VBox>
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- LEFT: side panel. Each button id = the section key (/fxml/lecture/sections/<id>.fxml) -->
+    <left>
+        <VBox minWidth="235.0" prefWidth="235.0" spacing="8" styleClass="adm-sidebar">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-navscroll" VBox.vgrow="ALWAYS">
+                <VBox fx:id="navBox" spacing="2">
+                    <Label styleClass="adm-menu-caption" text="DASHBOARD" />
+                    <Button id="overview" fx:id="navOverview" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Dashboard Overview" />
+                    <Label styleClass="adm-menu-caption" text="TEACHING" />
+                    <Button id="courses" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="My Courses" />
+                    <Button id="materials" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Course Materials" />
+                    <Label styleClass="adm-menu-caption" text="STUDENTS" />
+                    <Button id="marks" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Marks" />
+                    <Button id="attendance" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Attendance" />
+                    <Button id="medical" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Medical Records" />
+                    <Button id="results" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Eligibility &amp; Results" />
+                    <Label styleClass="adm-menu-caption" text="ACCOUNT" />
+                    <Button id="profile" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Edit Profile" />
+                </VBox>
+            </ScrollPane>
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="adm-signout" text="Sign Out" />
+        </VBox>
+    </left>
+
+    <!-- CENTER: overview, or the selected section loaded into sectionHost -->
+    <center>
+        <StackPane styleClass="adm-content">
+            <ScrollPane fx:id="overviewPane" fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll">
+                <VBox spacing="18" styleClass="adm-overview">
+
+                    <VBox spacing="6" styleClass="adm-banner">
+                        <Label fx:id="welcomeLabel" styleClass="adm-banner-title" wrapText="true" />
+                        <Label styleClass="adm-banner-text" text="Manage your courses, marks and student records from here." wrapText="true" />
+                        <Label fx:id="dateLabel" styleClass="adm-banner-date" />
+                    </VBox>
+
+                    <FlowPane hgap="16" vgap="16">
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="adm-stat, adm-stat-a">
+                            <Label styleClass="adm-stat-label" text="My Courses" />
+                            <Label fx:id="statCourses" styleClass="adm-stat-value, adm-c-primary" text="-" />
+                        </VBox>
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="adm-stat, adm-stat-b">
+                            <Label styleClass="adm-stat-label" text="My Students" />
+                            <Label fx:id="statStudents" styleClass="adm-stat-value, adm-c-green" text="-" />
+                        </VBox>
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="adm-stat, adm-stat-c">
+                            <Label styleClass="adm-stat-label" text="Materials Uploaded" />
+                            <Label fx:id="statMaterials" styleClass="adm-stat-value, adm-c-amber" text="-" />
+                        </VBox>
+                    </FlowPane>
+
+                    <VBox spacing="12" styleClass="adm-card">
+                        <Label styleClass="adm-card-title" text="Quick Access" />
+                        <FlowPane hgap="12" vgap="12">
+                            <Button id="quick-courses" onAction="#handleQuick" styleClass="adm-quick" text="My Courses" />
+                            <Button id="quick-marks" onAction="#handleQuick" styleClass="adm-quick" text="Enter Marks" />
+                            <Button id="quick-attendance" onAction="#handleQuick" styleClass="adm-quick" text="View Attendance" />
+                            <Button id="quick-materials" onAction="#handleQuick" styleClass="adm-quick" text="Upload Materials" />
+                        </FlowPane>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+            <StackPane fx:id="sectionHost" managed="false" visible="false" />
+        </StackPane>
+    </center>
+</BorderPane>
