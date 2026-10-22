@@ -24,3 +24,6 @@ xampp/mysql/data/
 Thumbs.db
 
 .agentbridge
+
+# Uploaded medical documents
+uploads/medicals/

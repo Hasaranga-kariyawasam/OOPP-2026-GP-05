@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Medical Management: add (FR-36), edit before approval (FR-37), approve / reject (FR-38). -->
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.to.sections.ToMedicalController">
+    <VBox spacing="16" maxWidth="Infinity">
+        <Label styleClass="adm-page-title" text="Medical Management" />
+
+        <VBox spacing="12" styleClass="adm-card">
+            <Label fx:id="formTitle" styleClass="adm-card-title" text="Add Medical Record" />
+            <FlowPane hgap="14" vgap="10">
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Undergraduate" />
+                    <ComboBox fx:id="medStudent" prefWidth="300.0" promptText="Select undergraduate" styleClass="adm-combo" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Date the medical covers" />
+                    <DatePicker fx:id="medDate" prefWidth="170.0" styleClass="adm-combo" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Reason" />
+                    <TextField fx:id="medReason" prefWidth="300.0" promptText="e.g. Viral fever" styleClass="adm-field" />
+                </VBox>
+            </FlowPane>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Button onAction="#chooseDocument" styleClass="adm-btn-light" text="Attach Document" />
+                <Button onAction="#clearDocument" styleClass="adm-btn-light" text="Remove" />
+                <Label fx:id="docLabel" styleClass="adm-muted" text="No document chosen (PDF / JPG / PNG, max 5 MB)" wrapText="true" />
+            </HBox>
+            <Label fx:id="formMessage" wrapText="true" />
+            <FlowPane hgap="10" vgap="8">
+                <Button fx:id="btnSave" onAction="#saveMedical" styleClass="adm-btn" text="Save Medical" />
+                <Button fx:id="btnCancel" onAction="#cancelEdit" styleClass="adm-btn-light" text="Clear Form" />
+            </FlowPane>
+        </VBox>
+
+        <VBox spacing="12" styleClass="adm-card">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label styleClass="adm-card-title" text="Medical Records" />
+                <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+            <FlowPane hgap="10" vgap="8">
+                <TextField fx:id="listSearch" prefWidth="230.0" promptText="Search reg no / name / reason" styleClass="adm-field" />
+                <ComboBox fx:id="listStatus" prefWidth="170.0" styleClass="adm-combo" />
+                <Button onAction="#reload" styleClass="adm-btn-light" text="Refresh" />
+            </FlowPane>
+            <TableView fx:id="medTable" prefHeight="340.0" styleClass="adm-table" />
+            <Label fx:id="listMessage" wrapText="true" />
+            <FlowPane hgap="10" vgap="8">
+                <Button fx:id="btnApprove" onAction="#approve" styleClass="adm-btn" text="Approve" />
+                <Button fx:id="btnReject" onAction="#reject" styleClass="adm-btn-danger" text="Not Approve" />
+                <Button fx:id="btnEdit" onAction="#editSelected" styleClass="adm-btn-light" text="Edit" />
+                <Button fx:id="btnDelete" onAction="#deleteSelected" styleClass="adm-btn-light" text="Delete" />
+                <Button fx:id="btnOpen" onAction="#openDocument" styleClass="adm-btn-light" text="Open Document" />
+            </FlowPane>
+            <Label styleClass="to-hint" text="Only APPROVED medicals count towards attendance eligibility. Pending medicals can be edited or deleted; decided ones cannot." wrapText="true" />
+        </VBox>
+    </VBox>
+</ScrollPane>
