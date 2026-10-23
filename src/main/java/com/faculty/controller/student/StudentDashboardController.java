@@ -11,17 +11,17 @@ import java.io.IOException;
 /** Controller for the Student dashboard. */
 public class StudentDashboardController {
 
-    @FXML private Label welcomeLabel;
+    //@FXML private Label welcomeLabel;
     @FXML private Label roleLabel;
 
-    @FXML
-    private void initialize() {
-        User user = SessionManager.getCurrentUser();
-        if (user != null) {
-            welcomeLabel.setText("Welcome, " + user.getFullName());
-            roleLabel.setText("Role: " + user.getRole());
-        }
-    }
+    //@FXML
+    //private void initialize() {
+       // User user = SessionManager.getCurrentUser();
+        //if (user != null) {
+          //  welcomeLabel.setText("Welcome, " + user.getFullName());
+           // roleLabel.setText("Role: " + user.getRole());
+        //}
+    //}
 
     @FXML
     private void handleLogout() {

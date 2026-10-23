@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.faculty.controller.student.StudentDashboardController">
+<BorderPane styleClass="adm-root" stylesheets="@../../css/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.student.StudentDashboardController">
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-bar">
-            <Label text="Student Dashboard" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" onAction="#handleLogout"/>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="adm-topbar">
+            <StackPane maxHeight="44.0" maxWidth="44.0" minHeight="44.0" minWidth="44.0" prefHeight="44.0" prefWidth="44.0" styleClass="adm-logo-circle">
+                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../img/FOT.png" />
+                    </image>
+                </ImageView>
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" spacing="1">
+                <Label styleClass="adm-top-title" text="Faculty Management System" />
+                <Label styleClass="adm-top-sub" text="Faculty of Technology - University of Ruhuna" />
+               <Region />
+            </VBox>
+
+
         </HBox>
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="10">
-            <Label fx:id="welcomeLabel" styleClass="title"/>
-            <Label fx:id="roleLabel" styleClass="subtitle"/>
-        </VBox>
+        <VBox alignment="CENTER" prefHeight="623.0" prefWidth="798.0" spacing="10" styleClass="adm-root" />
     </center>
+   <left>
+      <VBox prefHeight="623.0" prefWidth="232.0" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>
