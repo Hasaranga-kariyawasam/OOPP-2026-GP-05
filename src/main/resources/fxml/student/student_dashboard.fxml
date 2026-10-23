@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -28,6 +29,16 @@
         <VBox alignment="CENTER" prefHeight="623.0" prefWidth="798.0" spacing="10" styleClass="adm-root" />
     </center>
    <left>
-      <VBox prefHeight="623.0" prefWidth="232.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="623.0" prefWidth="232.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button lineSpacing="2.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="38.0" prefWidth="228.0" text="Home" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </padding>
+            </Button>
+         </children></VBox>
    </left>
 </BorderPane>
