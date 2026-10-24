@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Timetable of the Technical Officer's own department (FR-69). Read only. -->
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.to.sections.ToTimetableController">
+    <VBox spacing="16" maxWidth="Infinity">
+        <Label styleClass="adm-page-title" text="Timetable" />
+        <FlowPane hgap="14" vgap="10">
+            <VBox spacing="4">
+                <Label styleClass="adm-label" text="Filter by course" />
+                <ComboBox fx:id="courseFilter" prefWidth="300.0" styleClass="adm-combo" />
+            </VBox>
+        </FlowPane>
+        <Label fx:id="ttMessage" wrapText="true" />
+        <VBox fx:id="dayBox" spacing="14" />
+    </VBox>
+</ScrollPane>
