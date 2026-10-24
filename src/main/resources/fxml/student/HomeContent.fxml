@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" styleClass="lms-scroll-pane" stylesheets="@../../css/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.student.HomePage">
+    <content>
+        <VBox spacing="25" styleClass="lms-main-container">
+            <padding>
+                <Insets bottom="30" left="30" right="30" top="20" />
+            </padding>
+            <children>
+                <Label styleClass="lms-page-title" text="Faculty of Technology, University of Ruhuna - LMS" />
+
+                <VBox spacing="10" styleClass="lms-card-box">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Label styleClass="lms-section-title" text="Site announcements" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Hyperlink styleClass="lms-link" text="Subscribe to forum" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" styleClass="lms-announcement-banner">
+                            <padding>
+                                <Insets bottom="12" left="15" right="15" top="12" />
+                            </padding>
+                            <children>
+                                <Label styleClass="lms-announcement-text" text="There are no discussion topics yet in this forum" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox spacing="15" styleClass="lms-card-box">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                    <children>
+                        <Label styleClass="lms-section-title" text="My courses" />
+
+                        <!-- GridPane එකට fx:id එකක් ලබා දී ඇත -->
+                        <GridPane fx:id="coursesGrid" hgap="20" vgap="20">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="280.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="280.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="280.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="220.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

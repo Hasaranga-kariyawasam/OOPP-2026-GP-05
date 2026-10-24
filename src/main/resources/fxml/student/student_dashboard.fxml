@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane styleClass="adm-root" stylesheets="@../../css/admin.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.student.StudentDashboardController">
     <top>
@@ -23,6 +23,7 @@
 
 
         </HBox>
+
     </top>
 
     <center>
@@ -31,14 +32,42 @@
    <left>
       <VBox prefHeight="623.0" prefWidth="232.0" BorderPane.alignment="CENTER">
          <children>
-            <Button lineSpacing="2.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="38.0" prefWidth="228.0" text="Home" VBox.vgrow="NEVER">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" />
-               </padding>
-            </Button>
+            <ScrollPane prefHeight="750.0" prefWidth="200.0">
+               <content>
+                  <VBox prefHeight="600.0" prefWidth="220.0" styleClass="adm-sidebar">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Home" wrapText="true" />
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Dashboard" wrapText="true" />
+
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="My courses" wrapText="true" />
+                         <Label cache="true" lineSpacing="4.0" mnemonicParsing="true" styleClass="adm-menu-caption" text="REGISTRATION" wrapText="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Course Registration" wrapText="true" />
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Exam Registration" wrapText="true" />
+                         <Label cache="true" lineSpacing="4.0" mnemonicParsing="true" styleClass="adm-menu-caption" text=" ATTENDENCE" wrapText="true">
+                             <font>
+                                 <Font size="15.0" />
+                             </font></Label>
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="View  Attendence" wrapText="true" />
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Mark  Attendence" wrapText="true" />
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Submit Medicals" wrapText="true" />
+                         <Label cache="true" lineSpacing="4.0" mnemonicParsing="true" styleClass="adm-menu-caption" text="NOTICES AND SCHEDULE" wrapText="true">
+                             <font>
+                                 <Font size="15.0" />
+                             </font></Label>
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Notices" wrapText="true" />
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Time Table" wrapText="true" />
+                         <Label cache="true" lineSpacing="4.0" mnemonicParsing="true" styleClass="adm-menu-caption" text=" ACCOUNT" wrapText="true">
+                             <font>
+                                 <Font size="15.0" />
+                             </font></Label>
+                         <Button mnemonicParsing="false" onAction="#handleNavigation" prefHeight="44.0" prefWidth="218.0" styleClass="adm-nav" stylesheets="@../../css/admin.css" text="Edit Profile" wrapText="true" />
+
+                     </children></VBox>
+               </content></ScrollPane>
          </children></VBox>
    </left>
+
 </BorderPane>
