@@ -56,6 +56,7 @@
                     <Button id="courses" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="My Courses" />
                     <Button id="materials" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Course Materials" />
                     <Label styleClass="adm-menu-caption" text="STUDENTS" />
+                    <Button id="students" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Student Details" />
                     <Button id="marks" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Marks" />
                     <Button id="attendance" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Attendance" />
                     <Button id="medical" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Medical Records" />
