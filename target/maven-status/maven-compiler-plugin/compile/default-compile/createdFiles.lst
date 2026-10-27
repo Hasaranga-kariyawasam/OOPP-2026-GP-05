@@ -6,6 +6,7 @@ com\faculty\util\PasswordUtil.class
 com\faculty\service\LecturerCourseService.class
 com\faculty\model\admin\Admin.class
 com\faculty\controller\student\StudentDashboardController.class
+com\faculty\controller\lecture\LecturerMaterialsController$1.class
 com\faculty\controller\lecture\StudentDetailsController.class
 com\faculty\model\lecture\Lecturer.class
 com\faculty\dao\UserDAOImpl.class
@@ -16,11 +17,16 @@ com\faculty\service\SessionManager.class
 com\faculty\controller\to\TechnicalOfficerDashboardController.class
 com\faculty\service\lecturer\LecturerService.class
 com\faculty\controller\LoginController.class
+com\faculty\service\LecturerMaterialService.class
 com\faculty\model\student\Undergraduate.class
+com\faculty\dao\LecturerMaterialDAOImpl.class
 com\faculty\model\to\TechnicalOfficer.class
 com\faculty\controller\lecture\LecturerDashboardController.class
+com\faculty\dao\LecturerMaterialDAO.class
 com\faculty\controller\admin\AdminDashboardController.class
 com\faculty\controller\lecture\LecturerCoursesController.class
+com\faculty\model\lecture\LecturerMaterial.class
+com\faculty\controller\lecture\LecturerMaterialsController$ClickableTitleCell.class
 com\faculty\dao\UserDAO.class
 com\faculty\util\DataSeeder.class
 com\faculty\config\DBConnection.class
@@ -33,4 +39,5 @@ com\faculty\model\Staff.class
 com\faculty\DBTest.class
 com\faculty\dao\lecturer\LecturerDAO.class
 com\faculty\exception\AuthenticationException.class
+com\faculty\controller\lecture\LecturerMaterialsController.class
 com\faculty\service\StudentDetailsService.class
