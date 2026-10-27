@@ -1,5 +1,6 @@
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\config\DBConnection.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\admin\AdminDashboardController.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerCoursesController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerDashboardController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\StudentDetailsController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\LoginController.java
@@ -7,6 +8,8 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\student\StudentDashboard
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\to\TechnicalOfficerDashboardController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\lecturer\LecturerDAO.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\lecturer\LecturerDAOImpl.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerCourseDAO.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerCourseDAOImpl.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\StudentDetailsDAO.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\StudentDetailsDAOImpl.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\UserDAO.java
@@ -16,6 +19,7 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\exception\AuthenticationException.j
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\MainApp.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\admin\Admin.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\Lecturer.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\LecturerCourse.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\StudentDetails.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\Staff.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\student\Undergraduate.java
@@ -24,6 +28,7 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\User.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\UserRole.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\AuthService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\lecturer\LecturerService.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerCourseService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\SessionManager.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\StudentDetailsService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\util\DataSeeder.java
