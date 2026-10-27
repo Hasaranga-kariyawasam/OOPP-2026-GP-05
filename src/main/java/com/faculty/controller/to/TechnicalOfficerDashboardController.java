@@ -1,9 +1,18 @@
 package com.faculty.controller.to;
 
 import com.faculty.MainApp;
+import com.faculty.exception.ServiceException;
+import com.faculty.model.ApprovalStatus;
+import com.faculty.model.MedicalRecord;
+import com.faculty.model.TimetableEntry;
 import com.faculty.model.User;
 import com.faculty.model.UserRole;
+import com.faculty.model.to.TechnicalOfficer;
+import com.faculty.service.MedicalService;
+import com.faculty.service.NoticeService;
 import com.faculty.service.SessionManager;
+import com.faculty.service.TODashboardService;
+import com.faculty.service.TimetableService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +23,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,6 +38,8 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -71,6 +84,12 @@ public class TechnicalOfficerDashboardController {
 
     private static TechnicalOfficerDashboardController instance;
 
+    private final TODashboardService dashboardService = new TODashboardService();
+    private final TimetableService timetableService = new TimetableService();
+    private final MedicalService medicalService = new MedicalService();
+    private final NoticeService noticeService = new NoticeService();
+
+    private List<TimetableEntry> timetable = new ArrayList<>();
     private YearMonth shownMonth = YearMonth.now();
     private LocalDate selectedDate = LocalDate.now();
 
@@ -142,35 +161,104 @@ public class TechnicalOfficerDashboardController {
 
     // ------------------------------------------------------------------ overview data
 
-    /**
-     * Overview numbers. The attendance, medical, notice and timetable modules are not built yet,
-     * so the tiles show "-" until their data is available.
-     */
     private void loadOverview() {
-        statPending.setText("-");
-        statToday.setText("-");
-        statRecords.setText("-");
-        statNotices.setText("-");
+        TechnicalOfficer to = ToUi.currentOfficer();
+        if (to == null) {
+            return;
+        }
+        try {
+            TODashboardService.Stats stats =
+                    dashboardService.loadStats(to.getUserId(), to.getDepId(), LocalDate.now().getDayOfWeek());
+            statPending.setText(String.valueOf(stats.pendingMedicals()));
+            statToday.setText(String.valueOf(stats.sessionsToday()));
+            statRecords.setText(String.valueOf(stats.recordsEntered()));
+            statNotices.setText(String.valueOf(stats.notices()));
+
+            timetable = timetableService.getTimetable(to.getDepId());
+        } catch (ServiceException e) {
+            statPending.setText("-");
+            statToday.setText("-");
+            statRecords.setText("-");
+            statNotices.setText("-");
+            timetable = new ArrayList<>();
+        }
         renderDaySessions();
         renderPendingMedicals();
     }
 
-    /** Sessions panel: filled when the timetable module is added. */
+    /** Sessions of the department timetable that fall on the day chosen in the calendar. */
     private void renderDaySessions() {
         boolean today = selectedDate.equals(LocalDate.now());
         daySessionsTitle.setText(today ? "Today's Sessions" : "Sessions on " + selectedDate.format(SHORT_DATE));
         daySessionsBox.getChildren().clear();
-        Label none = new Label("Timetable is not available yet.");
-        none.getStyleClass().add("adm-muted");
-        daySessionsBox.getChildren().add(none);
+
+        List<TimetableEntry> sessions = timetableService.filterByDay(timetable, selectedDate.getDayOfWeek());
+        if (sessions.isEmpty()) {
+            Label none = new Label("No sessions scheduled for " + selectedDate.getDayOfWeek()
+                    .getDisplayName(TextStyle.FULL, Locale.ENGLISH) + ".");
+            none.getStyleClass().add("adm-muted");
+            daySessionsBox.getChildren().add(none);
+            return;
+        }
+        for (TimetableEntry t : sessions) {
+            Label time = new Label(t.getTimeRange());
+            time.getStyleClass().add("to-slot-time");
+            time.setMinWidth(104);
+
+            Label title = new Label(t.getCourseCode() + " - " + t.getCourseName());
+            title.getStyleClass().add("to-slot-title");
+            title.setWrapText(true);
+            Label meta = new Label(t.getVenue() == null ? "" : t.getVenue());
+            meta.getStyleClass().add("to-slot-meta");
+            VBox text = new VBox(2, title, meta);
+            HBox.setHgrow(text, Priority.ALWAYS);
+
+            Label type = ToUi.chip(t.getSessionType().getLabel(),
+                    t.getSessionType().name().equals("THEORY") ? "info" : "neutral");
+
+            HBox row = new HBox(12, time, text, type);
+            row.setAlignment(Pos.CENTER_LEFT);
+            row.getStyleClass().add("to-slot");
+            daySessionsBox.getChildren().add(row);
+        }
     }
 
-    /** Pending medicals panel: filled when the medical module is added. */
     private void renderPendingMedicals() {
         pendingBox.getChildren().clear();
-        Label none = new Label("Medical management is not available yet.");
-        none.getStyleClass().add("adm-muted");
-        pendingBox.getChildren().add(none);
+        try {
+            List<MedicalRecord> pending = medicalService.find(ApprovalStatus.PENDING, null);
+            if (pending.isEmpty()) {
+                Label none = new Label("No pending medicals - everything is up to date.");
+                none.getStyleClass().add("adm-muted");
+                pendingBox.getChildren().add(none);
+                return;
+            }
+            for (MedicalRecord m : pending.stream().limit(5).toList()) {
+                Label who = new Label(m.getRegNumber() + "  " + m.getStudentName());
+                who.getStyleClass().add("to-slot-title");
+                Label reason = new Label(m.getReason() == null ? "" : m.getReason());
+                reason.getStyleClass().add("to-slot-meta");
+                VBox text = new VBox(2, who, reason);
+                HBox.setHgrow(text, Priority.ALWAYS);
+
+                Label date = new Label(m.getSessionDate().format(SHORT_DATE));
+                date.getStyleClass().add("to-slot-meta");
+
+                HBox row = new HBox(12, text, date, ToUi.chip("Pending", "warn"));
+                row.setAlignment(Pos.CENTER_LEFT);
+                row.getStyleClass().add("to-row");
+                pendingBox.getChildren().add(row);
+            }
+            if (pending.size() > 5) {
+                Label more = new Label("+ " + (pending.size() - 5) + " more in Medical Management");
+                more.getStyleClass().add("to-hint");
+                pendingBox.getChildren().add(more);
+            }
+        } catch (ServiceException e) {
+            Label err = new Label(e.getMessage());
+            err.getStyleClass().add("to-msg-err");
+            pendingBox.getChildren().add(err);
+        }
     }
 
     // ------------------------------------------------------------------ calendar (same as Admin)
