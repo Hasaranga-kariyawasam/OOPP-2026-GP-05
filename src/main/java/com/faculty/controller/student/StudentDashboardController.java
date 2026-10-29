@@ -2,14 +2,19 @@ package com.faculty.controller.student;
 
 import com.faculty.MainApp;
 import com.faculty.model.User;
+import com.faculty.service.SessionManager;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
 public class StudentDashboardController {
 
     @FXML private Label roleLabel;
-    @FXML private StackPane contentArea;
-    
+    @FXML private StackPane contentArea; // දකුණු පැත්තේ වෙනස් වන ප්‍රධාන ප්‍රදේශය සඳහා (අවශ්‍ය නම් FXML එකේ center එකට fx:id එකක් දෙන්න)
 
     @FXML
     private void initialize() {
