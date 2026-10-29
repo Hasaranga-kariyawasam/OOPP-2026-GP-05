@@ -1,5 +1,6 @@
 package com.faculty.model.student;
-
+import com.faculty.model.User;
+import java.time.LocalDate;
 
 public class Undergraduate extends User {
 
