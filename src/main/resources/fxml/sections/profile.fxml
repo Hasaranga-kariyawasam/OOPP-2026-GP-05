@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="stu-scroll" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentProfileController">
+    <VBox spacing="16" styleClass="stu-page">
+
+        <VBox spacing="16" styleClass="stu-card">
+            <Label styleClass="stu-page-title" text="My Profile" />
+            <HBox alignment="CENTER_LEFT" spacing="18">
+                <StackPane>
+                    <Circle fx:id="avatar" radius="44.0" styleClass="stu-avatar-big" />
+                    <Label fx:id="initialsLabel" styleClass="stu-initials-big" />
+                </StackPane>
+                <VBox spacing="6">
+                    <Label fx:id="nameLabel" styleClass="stu-card-title" />
+                    <Label fx:id="regLabel" styleClass="stu-muted" />
+                    <Button onAction="#handleChoosePicture" styleClass="stu-btn-light" text="Change Picture" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <VBox spacing="12" styleClass="stu-card">
+            <Label styleClass="stu-sub-title" text="Student Details (read only)" />
+            <GridPane hgap="24" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="110.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="120.0" />
+                    <ColumnConstraints minWidth="110.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="120.0" />
+                </columnConstraints>
+                <Label styleClass="stu-info-key" text="Username" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label fx:id="usernameVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label styleClass="stu-info-key" text="Registration No." GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <Label fx:id="regVal" styleClass="stu-info-val" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                <Label styleClass="stu-info-key" text="Batch" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Label fx:id="batchVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label styleClass="stu-info-key" text="Status" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label fx:id="statusVal" styleClass="stu-info-val" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <Label styleClass="stu-info-key" text="NIC" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Label fx:id="nicVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label styleClass="stu-info-key" text="Date of Birth" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label fx:id="dobVal" styleClass="stu-info-val" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <Label styleClass="stu-info-key" text="Intake Date" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <Label fx:id="intakeVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="12" styleClass="stu-card">
+            <Label styleClass="stu-sub-title" text="Contact Details (you can edit these)" />
+            <GridPane hgap="24" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="110.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="120.0" />
+                    <ColumnConstraints minWidth="110.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="120.0" />
+                </columnConstraints>
+                <Label styleClass="stu-label" text="Email" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <TextField fx:id="emailField" styleClass="stu-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label styleClass="stu-label" text="Phone" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <TextField fx:id="phoneField" styleClass="stu-field" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                <Label styleClass="stu-label" text="Street" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="streetField" styleClass="stu-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Label styleClass="stu-label" text="City" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="cityField" styleClass="stu-field" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <Label styleClass="stu-label" text="Postal Code" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="postalField" styleClass="stu-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label styleClass="stu-label" text="Country" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <TextField fx:id="countryField" styleClass="stu-field" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            </GridPane>
+            <HBox spacing="10">
+                <Button onAction="#handleSave" styleClass="stu-btn" text="Save Changes" />
+                <Button onAction="#handleReset" styleClass="stu-btn-light" text="Reset" />
+            </HBox>
+        </VBox>
+    </VBox>
+</ScrollPane>
