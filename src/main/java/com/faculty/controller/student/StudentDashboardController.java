@@ -2,12 +2,6 @@ package com.faculty.controller.student;
 
 import com.faculty.MainApp;
 import com.faculty.model.User;
-import com.faculty.service.SessionManager;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
