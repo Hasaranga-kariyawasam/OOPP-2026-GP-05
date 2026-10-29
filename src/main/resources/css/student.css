@@ -1,0 +1,280 @@
+/* ================= ADMIN PANEL v5 - black accents =================
+   Near-black buttons / active items, subtle dark header, near-white sidebar,
+   soft borderless cards, background image, hidden scrollbars. Edit the colour variables below to retheme. */
+.stu-root {
+    -stu-ink: #111827;            /* near-black: buttons, active menu item, today in calendar */
+    -stu-ink-2: #1f2937;          /* hover shade of the above */
+    -stu-primary: #111827;
+    -stu-text: #111827;           /* text */
+    -stu-muted: #6b7280;          /* secondary text */
+    -stu-soft: #eef1f5;           /* light grey (hover / selected / tiles) */
+
+    -fx-background-color: #f4f7fd;
+    -fx-background-image: url("../img/login-bg.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-font-family: "Segoe UI", "Arial";
+}
+
+/* ---------- header panel (small dark gradient, no lines) ---------- */
+.stu-topbar {
+    -fx-background-color: linear-gradient(to right, #0b0f19, #1f2937);
+    -fx-padding: 10 24;
+}
+.stu-logo-circle { -fx-background-color: white; -fx-background-radius: 22; }
+.stu-top-title { -fx-text-fill: white; -fx-font-size: 17px; -fx-font-weight: bold; }
+.stu-top-sub { -fx-text-fill: rgba(255,255,255,0.80); -fx-font-size: 11px; }
+
+.stu-icon-btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-padding: 8 10;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.stu-icon-btn:hover { -fx-background-color: rgba(255,255,255,0.18); }
+.stu-bell { -fx-fill: white; }
+
+.stu-profile { -fx-padding: 4 10 4 14; -fx-background-radius: 10; -fx-cursor: hand; }   /* click = edit profile */
+.stu-profile:hover { -fx-background-color: rgba(255,255,255,0.16); }
+.stu-avatar { -fx-stroke: transparent; -fx-stroke-width: 0; }
+.stu-initials { -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; }
+.stu-profile-name { -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; }
+.stu-profile-meta { -fx-text-fill: rgba(255,255,255,0.80); -fx-font-size: 11px; }
+
+/* ---------- side panel (a little darker than the page, no border line) ---------- */
+.stu-sidebar {
+    -fx-background-color: #fafbfc;
+    -fx-padding: 10 12 16 12;
+}
+.stu-navscroll, .stu-navscroll > .viewport { -fx-background-color: transparent; }
+.stu-navscroll { -fx-padding: 0; -fx-background-insets: 0; }
+.stu-menu-caption {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 14 0 4 10;
+}
+.stu-nav {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-text-fill: -stu-text;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 13 16;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.stu-nav:hover { -fx-background-color: #eef1f5; }
+.stu-nav.active {
+    -fx-background-color: -stu-ink;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Sign out: solid red */
+.stu-signout {
+    -fx-background-color: #dc2626;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 12 12;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.stu-signout:hover { -fx-background-color: #b91c1c; }
+
+/* ---------- hide the side-panel / page scrollbars (mouse wheel still scrolls) ---------- */
+.stu-navscroll > .scroll-bar, .stu-scroll > .scroll-bar {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    -fx-padding: 0;
+}
+.stu-navscroll > .scroll-bar .increment-button, .stu-navscroll > .scroll-bar .decrement-button,
+.stu-scroll > .scroll-bar .increment-button, .stu-scroll > .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+}
+
+/* ---------- content ---------- */
+.stu-content { -fx-padding: 22 26 22 26; }
+.stu-scroll, .stu-scroll > .viewport { -fx-background-color: transparent; }
+.stu-scroll { -fx-padding: 0; -fx-background-insets: 0; }
+.stu-overview { -fx-padding: 0 4 4 0; }
+
+/* Every box uses ONE style: white, rounded, soft shadow, no border lines */
+.stu-banner, .stu-card, .stu-stat {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 14;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(gaussian, rgba(17,24,39,0.06), 8, 0, 0, 1);
+}
+.stu-banner { -fx-padding: 20 26; }
+.stu-card { -fx-padding: 20 22; }
+.stu-stat { -fx-padding: 14 18; -fx-spacing: 4; }
+
+/* simple welcome */
+.stu-banner-title { -fx-text-fill: -stu-text; -fx-font-size: 22px; -fx-font-weight: bold; }
+.stu-banner-text { -fx-text-fill: -stu-muted; -fx-font-size: 13px; }
+.stu-banner-date { -fx-text-fill: -stu-primary; -fx-font-size: 12px; -fx-font-weight: bold; }
+
+.stu-card-title { -fx-text-fill: -stu-text; -fx-font-size: 18px; -fx-font-weight: bold; }
+.stu-muted { -fx-text-fill: -stu-muted; -fx-font-size: 13px; }
+
+/* stat cards - same colour on all three */
+.stu-stat-a, .stu-stat-b, .stu-stat-c { -fx-border-width: 0; }
+.stu-stat-label { -fx-text-fill: -stu-muted; -fx-font-size: 13px; }
+.stu-stat-value { -fx-font-size: 28px; -fx-font-weight: bold; }
+.stu-c-primary, .stu-c-green, .stu-c-amber { -fx-text-fill: -stu-ink; }
+
+.stu-quick {
+    -fx-background-color: -stu-soft;
+    -fx-background-radius: 8;
+    -fx-text-fill: -stu-text;
+    -fx-font-size: 13px;
+    -fx-padding: 9 18;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.stu-quick:hover {
+    -fx-background-color: -stu-ink;
+    -fx-text-fill: white;
+}
+
+/* ---------- calendar ---------- */
+.stu-cal-title { -fx-text-fill: -stu-text; -fx-font-size: 16px; -fx-font-weight: bold; }
+.stu-cal-nav {
+    -fx-background-color: -stu-ink;
+    -fx-background-radius: 7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 3 10;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.stu-cal-nav:hover { -fx-background-color: -stu-ink-2; }
+.stu-cal-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: -stu-primary;
+    -fx-font-size: 12px;
+    -fx-padding: 3 6;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.stu-cal-link:hover { -fx-underline: true; }
+.stu-cal-dow { -fx-text-fill: #9ca3af; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 4 0 6 0; }
+.stu-cal-day {
+    -fx-text-fill: -stu-text;
+    -fx-font-size: 13px;
+    -fx-padding: 8 0;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+.stu-cal-day:hover { -fx-background-color: -stu-soft; }
+.stu-cal-other { -fx-text-fill: #cbd5e1; }
+.stu-cal-selected { -fx-background-color: -stu-soft; }
+.stu-cal-today, .stu-cal-today:hover {
+    -fx-background-color: -stu-ink;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* =====================================================================
+   REUSABLE STYLES FOR THE OTHER ADMIN VIEWS (students, courses, ...)
+   Just add these styleClass names in each view's FXML.
+   ===================================================================== */
+.stu-page-title { -fx-text-fill: -stu-text; -fx-font-size: 22px; -fx-font-weight: bold; }
+
+/* text fields / combo boxes / date pickers */
+.stu-field, .stu-combo {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(17,24,39,0.18);
+    -fx-border-radius: 8;
+    -fx-text-fill: -stu-text;
+    -fx-prompt-text-fill: #9ca3af;
+    -fx-padding: 8 12;
+}
+.stu-field:focused, .stu-combo:focused { -fx-background-color: white; -fx-border-color: #111827; }
+
+/* main action button (same as LOGIN) */
+.stu-btn {
+    -fx-background-color: -stu-ink;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+}
+.stu-btn:hover { -fx-background-color: -stu-ink-2; }
+.stu-btn-danger {
+    -fx-background-color: #dc2626;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+}
+.stu-btn-light {
+    -fx-background-color: -stu-soft;
+    -fx-background-radius: 8;
+    -fx-text-fill: -stu-text;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+}
+
+/* tables */
+.stu-table {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12;
+    -fx-border-width: 0;
+    -fx-control-inner-background: rgba(255,255,255,0.92);
+    -fx-table-cell-border-color: transparent;
+}
+.stu-table .column-header-background { -fx-background-color: -stu-soft; -fx-background-radius: 12 12 0 0; }
+.stu-table .column-header, .stu-table .filler { -fx-background-color: transparent; -fx-border-width: 0; }
+.stu-table .column-header .label { -fx-text-fill: -stu-text; -fx-font-weight: bold; }
+.stu-table .table-row-cell { -fx-text-fill: -stu-text; }
+.stu-table .table-row-cell:selected { -fx-background-color: -stu-soft; }
+.stu-table .table-row-cell:selected .text { -fx-fill: -stu-text; }
+
+/* field captions + profile page */
+.stu-label { -fx-text-fill: -stu-text; -fx-font-size: 12px; -fx-font-weight: bold; }
+.stu-avatar-big { -fx-stroke: transparent; -fx-stroke-width: 0; }
+.stu-initials-big { -fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold; }
+.stu-combo .list-cell { -fx-text-fill: -stu-text; }
+
+/* ---------- dashboard summary tiles (inside the Student / GPA & Reports cards) ---------- */
+.stu-tile { -fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-padding: 12 16; -fx-spacing: 3; }
+.stu-tile-label { -fx-text-fill: -stu-muted; -fx-font-size: 12px; }
+.stu-tile-value { -fx-text-fill: -stu-ink; -fx-font-size: 22px; -fx-font-weight: bold; }
+
+/* =====================================================================
+   STUDENT PORTAL EXTRAS
+   ===================================================================== */
+.stu-page { -fx-padding: 0 4 4 0; }
+.stu-sub-title { -fx-text-fill: -stu-text; -fx-font-size: 15px; -fx-font-weight: bold; }
+.stu-note { -fx-text-fill: -stu-muted; -fx-font-size: 12px; }
+.stu-text-area, .stu-text-area .content {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-background-radius: 10;
+    -fx-text-fill: -stu-text;
+}
+.stu-alert-ok  { -fx-text-fill: #15803d; -fx-font-size: 13px; -fx-font-weight: bold; }
+.stu-alert-bad { -fx-text-fill: #dc2626; -fx-font-size: 13px; }
+.stu-notice-item { -fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-padding: 10 14; }
+.stu-notice-title { -fx-text-fill: -stu-text; -fx-font-size: 13px; -fx-font-weight: bold; }
+.stu-link-row { -fx-text-fill: -stu-muted; -fx-font-size: 12px; }
+.stu-info-key { -fx-text-fill: -stu-muted; -fx-font-size: 12px; -fx-font-weight: bold; }
+.stu-info-val { -fx-text-fill: -stu-text; -fx-font-size: 13px; }
