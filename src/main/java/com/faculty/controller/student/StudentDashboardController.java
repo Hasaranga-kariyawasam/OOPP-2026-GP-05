@@ -8,7 +8,8 @@ import java.io.IOException;
 public class StudentDashboardController {
 
     @FXML private Label roleLabel;
-    @FXML private StackPane contentArea; // දකුණු පැත්තේ වෙනස් වන ප්‍රධාන ප්‍රදේශය සඳහා (අවශ්‍ය නම් FXML එකේ center එකට fx:id එකක් දෙන්න)
+    @FXML private StackPane contentArea;
+    
 
     @FXML
     private void initialize() {
