@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentMedicalController">
+    <Label styleClass="stu-page-title" text="My Medical Records" />
+    <Label fx:id="summaryLabel" styleClass="stu-muted" />
+    <Label minHeight="-Infinity" styleClass="stu-note" text="Only APPROVED medicals are counted as attended in your attendance." wrapText="true" />
+    <TableView fx:id="medicalTable" styleClass="stu-table" VBox.vgrow="ALWAYS" />
+</VBox>
