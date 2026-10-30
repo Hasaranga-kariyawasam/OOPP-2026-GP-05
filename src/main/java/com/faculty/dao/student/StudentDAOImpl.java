@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -118,6 +120,58 @@ public class StudentDAOImpl implements StudentDAO {
         return select(sql, rs -> new MedicalInfo(rs.getInt("medical_id"), rs.getString("session_date"),
                 nz(rs.getString("reason")), rs.getString("approval_status"),
                 nz(rs.getString("document_path"))), stuId);
+    }
+
+    @Override
+    public int submitMedical(int stuId, LocalDate sessionDate, String reason, String documentPath) throws SQLException {
+        try (Connection con = DBConnection.getConnection()) {
+            con.setAutoCommit(false);
+            try {
+                try (PreparedStatement check = con.prepareStatement(
+                        "SELECT COUNT(*) FROM medical_record "
+                      + "WHERE stu_id = ? AND session_date = ? AND approval_status <> 'REJECTED'")) {
+                    check.setInt(1, stuId);
+                    check.setDate(2, java.sql.Date.valueOf(sessionDate));
+                    try (ResultSet rs = check.executeQuery()) {
+                        if (rs.next() && rs.getInt(1) > 0) {
+                            con.rollback();
+                            return -1;
+                        }
+                    }
+                }
+
+                int medicalId;
+                try (PreparedStatement insert = con.prepareStatement(
+                        "INSERT INTO medical_record (stu_id, document_path, session_date, reason, approval_status) "
+                      + "VALUES (?, ?, ?, ?, 'PENDING')", Statement.RETURN_GENERATED_KEYS)) {
+                    insert.setInt(1, stuId);
+                    insert.setString(2, documentPath);
+                    insert.setDate(3, java.sql.Date.valueOf(sessionDate));
+                    insert.setString(4, reason);
+                    insert.executeUpdate();
+                    try (ResultSet keys = insert.getGeneratedKeys()) {
+                        keys.next();
+                        medicalId = keys.getInt(1);
+                    }
+                }
+
+                // cover the absences of that day (they only count once the medical is APPROVED)
+                try (PreparedStatement link = con.prepareStatement(
+                        "UPDATE attendance SET medical_id = ? "
+                      + "WHERE stu_id = ? AND session_date = ? AND status = 'ABSENT' AND medical_id IS NULL")) {
+                    link.setInt(1, medicalId);
+                    link.setInt(2, stuId);
+                    link.setDate(3, java.sql.Date.valueOf(sessionDate));
+                    link.executeUpdate();
+                }
+
+                con.commit();
+                return medicalId;
+            } catch (SQLException e) {
+                con.rollback();
+                throw e;
+            }
+        }
     }
 
     // ------------------------------------------------------------------- grades

@@ -3,6 +3,7 @@ package com.faculty.dao.student;
 import com.faculty.model.student.StudentRecords.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -22,6 +23,14 @@ public interface StudentDAO {
     List<SessionRow> findSessions(int stuId, int courseId) throws SQLException;
 
     List<MedicalInfo> findMedicals(int stuId) throws SQLException;
+
+    /**
+     * A student submits a medical (status PENDING until a technical officer decides).
+     * Absences of that day are linked to the medical, so they count as attended once it is APPROVED.
+     *
+     * @return the new medical id, or -1 when a pending/approved medical already exists for that date
+     */
+    int submitMedical(int stuId, LocalDate sessionDate, String reason, String documentPath) throws SQLException;
 
     List<GradeRow> findGrades(int stuId) throws SQLException;
 
