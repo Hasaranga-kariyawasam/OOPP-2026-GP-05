@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentNoticesController">
+    <Label styleClass="stu-page-title" text="Notices" />
+    <Label fx:id="countLabel" styleClass="stu-muted" />
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <TableView fx:id="noticeTable" minWidth="260.0" prefWidth="340.0" styleClass="stu-table" HBox.hgrow="ALWAYS" />
+        <VBox minWidth="240.0" prefWidth="360.0" spacing="8" HBox.hgrow="ALWAYS">
+            <Label fx:id="titleLabel" styleClass="stu-sub-title" text="Select a notice" wrapText="true" />
+            <Label fx:id="dateLabel" styleClass="stu-note" />
+            <TextArea fx:id="bodyArea" editable="false" styleClass="stu-text-area" wrapText="true" VBox.vgrow="ALWAYS" />
+        </VBox>
+    </HBox>
+</VBox>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentCoursesController">
+    <Label styleClass="stu-page-title" text="My Courses" />
+    <Label fx:id="summaryLabel" styleClass="stu-muted" />
+    <TableView fx:id="courseTable" styleClass="stu-table" VBox.vgrow="ALWAYS" />
+    <Label fx:id="materialTitle" styleClass="stu-sub-title" text="Course Materials" />
+    <TableView fx:id="materialTable" prefHeight="150.0" minHeight="110.0" styleClass="stu-table" />
+</VBox>

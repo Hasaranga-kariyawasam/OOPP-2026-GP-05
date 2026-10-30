@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentTimetableController">
+    <Label styleClass="stu-page-title" text="My Timetable" />
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label styleClass="stu-label" text="Day:" />
+        <ComboBox fx:id="dayBox" prefWidth="170.0" styleClass="stu-combo" />
+        <Label fx:id="countLabel" styleClass="stu-muted" />
+    </HBox>
+    <TableView fx:id="timetableTable" styleClass="stu-table" VBox.vgrow="ALWAYS" />
+</VBox>
