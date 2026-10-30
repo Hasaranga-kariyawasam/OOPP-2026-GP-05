@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentMedicalController">
     <Label styleClass="stu-page-title" text="My Medical Records" />
+
+    <!-- submit a new medical -->
+    <VBox spacing="8" styleClass="stu-notice-item">
+        <Label styleClass="stu-sub-title" text="Submit a Medical" />
+        <FlowPane hgap="10" vgap="8" alignment="CENTER_LEFT">
+            <Label styleClass="stu-label" text="Medical date:" />
+            <DatePicker fx:id="datePicker" prefWidth="150.0" promptText="Pick a date" />
+            <Label styleClass="stu-label" text="Reason:" />
+            <TextField fx:id="reasonField" prefWidth="220.0" promptText="e.g. Viral fever" styleClass="stu-field" />
+            <Button fx:id="chooseButton" onAction="#handleChooseDocument" styleClass="stu-btn-light" text="Attach Document" />
+            <Label fx:id="fileLabel" styleClass="stu-note" text="No file chosen" />
+            <Button fx:id="submitButton" onAction="#handleSubmit" styleClass="stu-btn" text="Submit Medical" />
+        </FlowPane>
+        <Label minHeight="-Infinity" styleClass="stu-note" text="Attach your medical certificate (PDF or image). A technical officer will approve or reject it. Only APPROVED medicals count as attended." wrapText="true" />
+    </VBox>
+
     <Label fx:id="summaryLabel" styleClass="stu-muted" />
-    <Label minHeight="-Infinity" styleClass="stu-note" text="Only APPROVED medicals are counted as attended in your attendance." wrapText="true" />
     <TableView fx:id="medicalTable" styleClass="stu-table" VBox.vgrow="ALWAYS" />
 </VBox>
