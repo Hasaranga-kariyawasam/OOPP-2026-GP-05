@@ -55,13 +55,15 @@
                     <Label styleClass="adm-menu-caption" text="TEACHING" />
                     <Button id="courses" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="My Courses" />
                     <Button id="materials" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Course Materials" />
+                    <Button id="timetable" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Timetable" />
                     <Label styleClass="adm-menu-caption" text="STUDENTS" />
                     <Button id="students" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Student Details" />
                     <Button id="marks" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Marks" />
                     <Button id="attendance" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Attendance" />
                     <Button id="medical" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Medical Records" />
-                    <Button id="results" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Eligibility &amp; Results" />
+                    <Button id="results" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Eligibility" />
                     <Label styleClass="adm-menu-caption" text="ACCOUNT" />
+                    <Button id="notices" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Notices" />
                     <Button id="profile" maxWidth="Infinity" onAction="#handleNav" styleClass="adm-nav" text="Edit Profile" />
                 </VBox>
             </ScrollPane>

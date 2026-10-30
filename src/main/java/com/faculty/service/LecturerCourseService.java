@@ -25,4 +25,14 @@ public class LecturerCourseService {
         }
         return courseDAO.findByLecturer(user.getUserId());
     }
+
+    /** Throws when the course is not one of the logged-in lecturer's own courses. */
+    public void requireMyCourse(int courseId) throws SQLException {
+        for (LecturerCourse c : getMyCourses()) {
+            if (c.getCourseId() == courseId) {
+                return;
+            }
+        }
+        throw new SecurityException("This course is not assigned to you.");
+    }
 }
