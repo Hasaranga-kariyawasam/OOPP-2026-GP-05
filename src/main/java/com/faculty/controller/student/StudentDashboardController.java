@@ -238,7 +238,7 @@ public class StudentDashboardController {
 
     private void showSection(String key, String title) {
         Node content;
-        URL url = getClass().getResource("/fxml/student/sections/" + key + ".fxml");
+        URL url = getClass().getResource("/fxml/sections/" + key + ".fxml");
         if (url != null) {
             try {
                 content = FXMLLoader.load(url);
