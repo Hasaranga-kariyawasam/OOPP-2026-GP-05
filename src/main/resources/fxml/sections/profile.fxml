@@ -46,12 +46,11 @@
                 <Label fx:id="batchVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label styleClass="stu-info-key" text="Status" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <Label fx:id="statusVal" styleClass="stu-info-val" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <Label styleClass="stu-info-key" text="NIC" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <Label fx:id="nicVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
                 <Label styleClass="stu-info-key" text="Date of Birth" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                 <Label fx:id="dobVal" styleClass="stu-info-val" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <Label styleClass="stu-info-key" text="Intake Date" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <Label fx:id="intakeVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label styleClass="stu-info-key" text="Intake Date" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Label fx:id="intakeVal" styleClass="stu-info-val" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </GridPane>
         </VBox>
 

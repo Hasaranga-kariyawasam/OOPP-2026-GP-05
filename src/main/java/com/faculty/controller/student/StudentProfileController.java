@@ -64,7 +64,6 @@ public class StudentProfileController {
         regVal.setText(StudentUi.text(s.getRegNumber()));
         batchVal.setText(StudentUi.text(s.getBatch()));
         statusVal.setText(StudentUi.text(s.getStatus()).replace('_', ' '));
-        nicVal.setText(StudentUi.text(s.getNic()));
         dobVal.setText(s.getDob() == null ? "" : s.getDob().toString());
         intakeVal.setText(s.getIntakeDate() == null ? "" : s.getIntakeDate().toString());
         fillContactFields(s);
