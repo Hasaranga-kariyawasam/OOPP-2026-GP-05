@@ -1,11 +1,12 @@
 package com.faculty.controller.admin;
 
-import com.faculty.model.User;
-import com.faculty.service.SessionManager;
-import com.faculty.util.admin.AdminDb;
-import com.faculty.util.admin.AdminDb.Item;
+import com.faculty.exception.AdminValidationException;
+import com.faculty.model.admin.AdminOption;
+import com.faculty.model.admin.AdminTimetableForm;
+import com.faculty.model.admin.AdminTimetableSlot;
+import com.faculty.service.admin.AdminLookupService;
+import com.faculty.service.admin.AdminTimetableService;
 import com.faculty.util.admin.AdminUi;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -13,69 +14,68 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/** Timetable Management (admin section "timetables"). */
+/** Timetable Management (admin section "timetables"). UI only. */
 public class TimetablesSectionController {
 
-    private static final String[] HEADERS = {"Course", "Department", "Day", "Start", "End", "Type", "Venue"};
-    // hidden: 7 timetable_id, 8 course_id, 9 dep_id
+    private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm");
 
-    @FXML private TableView<ObservableList<String>> table;
+    @FXML private TableView<AdminTimetableSlot> table;
     @FXML private Label countLabel;
-    @FXML private ComboBox<Item> courseBox;
-    @FXML private ComboBox<Item> deptBox;
+    @FXML private ComboBox<AdminOption> courseBox;
+    @FXML private ComboBox<AdminOption> deptBox;
     @FXML private ComboBox<String> dayBox;
     @FXML private TextField startField;
     @FXML private TextField endField;
     @FXML private ComboBox<String> typeBox;
     @FXML private TextField venueField;
 
+    private final AdminTimetableService timetableService = new AdminTimetableService();
+    private final AdminLookupService lookupService = new AdminLookupService();
+
     private int selectedId = 0;
 
     @FXML
     private void initialize() {
-        dayBox.getItems().setAll("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
-        typeBox.getItems().setAll("THEORY", "PRACTICAL");
+        AdminUi.prepare(table);
+        AdminUi.column(table, "Course", AdminTimetableSlot::courseCode);
+        AdminUi.column(table, "Department", AdminTimetableSlot::departmentName);
+        AdminUi.column(table, "Day", AdminTimetableSlot::day);
+        AdminUi.column(table, "Start", s -> s.startTime().format(TIME_FMT));
+        AdminUi.column(table, "End", s -> s.endTime().format(TIME_FMT));
+        AdminUi.column(table, "Type", AdminTimetableSlot::sessionType);
+        AdminUi.column(table, "Venue", AdminTimetableSlot::venue);
+
+        dayBox.getItems().setAll(AdminTimetableService.DAYS);
+        typeBox.getItems().setAll(AdminTimetableService.SESSION_TYPES);
         try {
-            courseBox.getItems().setAll(AdminDb.items(
-                    "SELECT course_id, CONCAT(course_code,' - ',course_name) FROM course ORDER BY course_code"));
-            deptBox.getItems().setAll(AdminDb.items("SELECT dep_id, department_name FROM department ORDER BY department_name"));
+            courseBox.getItems().setAll(lookupService.courses());
+            deptBox.getItems().setAll(lookupService.departments());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
-        table.getSelectionModel().selectedItemProperty().addListener((o, old, r) -> {
-            if (r != null) {
-                selectedId = Integer.parseInt(r.get(7));
-                AdminUi.select(courseBox, r.get(8));
-                AdminUi.select(deptBox, r.get(9));
-                dayBox.setValue(r.get(2));
-                startField.setText(shortTime(r.get(3)));
-                endField.setText(shortTime(r.get(4)));
-                typeBox.setValue(r.get(5));
-                venueField.setText(r.get(6));
+        table.getSelectionModel().selectedItemProperty().addListener((o, old, s) -> {
+            if (s != null) {
+                selectedId = s.timetableId();
+                AdminUi.select(courseBox, s.courseId());
+                AdminUi.select(deptBox, s.depId());
+                dayBox.setValue(s.day());
+                startField.setText(s.startTime().format(TIME_FMT));
+                endField.setText(s.endTime().format(TIME_FMT));
+                typeBox.setValue(s.sessionType());
+                venueField.setText(s.venue());
             }
         });
         clearForm();
         refresh();
     }
 
-    private String shortTime(String t) {
-        return t.length() >= 5 ? t.substring(0, 5) : t;
-    }
-
     private void refresh() {
         try {
-            List<List<String>> rows = AdminDb.query(
-                    "SELECT c.course_code, d.department_name, t.day, t.start_time, t.end_time, t.session_type, "
-                  + "COALESCE(t.venue,''), t.timetable_id, t.course_id, t.dep_id "
-                  + "FROM timetable t JOIN course c ON c.course_id = t.course_id "
-                  + "JOIN department d ON d.dep_id = t.dep_id "
-                  + "ORDER BY FIELD(t.day,'MON','TUE','WED','THU','FRI','SAT','SUN'), t.start_time");
-            AdminUi.fillTable(table, HEADERS, rows);
+            List<AdminTimetableSlot> rows = timetableService.findAll();
+            AdminUi.show(table, rows);
             countLabel.setText(rows.size() + " session(s)");
         } catch (SQLException e) {
             AdminUi.error(e);
@@ -87,7 +87,9 @@ public class TimetablesSectionController {
         table.getSelectionModel().clearSelection();
         courseBox.getSelectionModel().clearSelection();
         deptBox.getSelectionModel().clearSelection();
-        if (!deptBox.getItems().isEmpty()) deptBox.getSelectionModel().selectFirst();
+        if (!deptBox.getItems().isEmpty()) {
+            deptBox.getSelectionModel().selectFirst();
+        }
         dayBox.setValue("MON");
         typeBox.setValue("THEORY");
         startField.clear();
@@ -95,36 +97,21 @@ public class TimetablesSectionController {
         venueField.clear();
     }
 
-    /** {course, dep, day, start, end, type, venue} or null after showing a message. */
-    private Object[] values() {
-        if (courseBox.getValue() == null) { AdminUi.warn("Choose a course."); return null; }
-        if (deptBox.getValue() == null) { AdminUi.warn("Choose a department."); return null; }
-        LocalTime start, end;
-        try {
-            start = LocalTime.parse(AdminUi.text(startField));
-            end = LocalTime.parse(AdminUi.text(endField));
-        } catch (DateTimeParseException e) {
-            AdminUi.warn("Enter times like 08:30 (24-hour, HH:mm).");
-            return null;
-        }
-        if (!end.isAfter(start)) { AdminUi.warn("End time must be after start time."); return null; }
-        return new Object[]{courseBox.getValue().id(), deptBox.getValue().id(), dayBox.getValue(),
-                Time.valueOf(start), Time.valueOf(end), typeBox.getValue(), AdminUi.text(venueField)};
+    private AdminTimetableForm readForm() {
+        return new AdminTimetableForm(AdminUi.idOf(courseBox), AdminUi.idOf(deptBox), dayBox.getValue(),
+                AdminUi.text(startField), AdminUi.text(endField), typeBox.getValue(), AdminUi.text(venueField));
     }
 
     @FXML private void handleClear() { clearForm(); }
 
     @FXML
     private void handleAdd() {
-        Object[] v = values();
-        if (v == null) return;
-        User admin = SessionManager.getCurrentUser();
-        Integer adminId = admin == null ? null : admin.getUserId();
         try {
-            AdminDb.update("INSERT INTO timetable (course_id, dep_id, day, start_time, end_time, session_type, venue, created_by) "
-                    + "VALUES (?,?,?,?,?,?,?,?)", v[0], v[1], v[2], v[3], v[4], v[5], v[6], adminId);
+            timetableService.add(readForm());
             clearForm();
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -132,13 +119,11 @@ public class TimetablesSectionController {
 
     @FXML
     private void handleUpdate() {
-        if (selectedId == 0) { AdminUi.warn("Select a session from the table first."); return; }
-        Object[] v = values();
-        if (v == null) return;
         try {
-            AdminDb.update("UPDATE timetable SET course_id=?, dep_id=?, day=?, start_time=?, end_time=?, session_type=?, venue=? "
-                    + "WHERE timetable_id=?", v[0], v[1], v[2], v[3], v[4], v[5], v[6], selectedId);
+            timetableService.update(selectedId, readForm());
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -146,12 +131,19 @@ public class TimetablesSectionController {
 
     @FXML
     private void handleDelete() {
-        if (selectedId == 0) { AdminUi.warn("Select a session from the table first."); return; }
-        if (!AdminUi.confirm("Delete this timetable entry?")) return;
+        if (selectedId == 0) {
+            AdminUi.warn("Select a session from the table first.");
+            return;
+        }
+        if (!AdminUi.confirm("Delete this timetable entry?")) {
+            return;
+        }
         try {
-            AdminDb.update("DELETE FROM timetable WHERE timetable_id=?", selectedId);
+            timetableService.delete(selectedId);
             clearForm();
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }

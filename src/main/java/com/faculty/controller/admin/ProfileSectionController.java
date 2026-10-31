@@ -1,8 +1,10 @@
 package com.faculty.controller.admin;
 
-import com.faculty.dao.admin.AdminDAO;
+import com.faculty.exception.AdminValidationException;
 import com.faculty.model.User;
+import com.faculty.model.admin.AdminProfileData;
 import com.faculty.service.SessionManager;
+import com.faculty.service.admin.AdminProfileService;
 import com.faculty.util.admin.AdminUi;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -18,7 +20,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.sql.SQLException;
 
-/** Edit Profile: personal details, profile picture and password (opened by clicking the header profile). */
+/** Edit Profile: personal details, profile picture and password (opened by clicking the header profile). UI only. */
 public class ProfileSectionController {
 
     @FXML private Circle avatar;
@@ -39,6 +41,8 @@ public class ProfileSectionController {
     @FXML private PasswordField currentPw;
     @FXML private PasswordField newPw;
     @FXML private PasswordField confirmPw;
+
+    private final AdminProfileService profileService = new AdminProfileService();
 
     @FXML
     private void initialize() {
@@ -112,60 +116,33 @@ public class ProfileSectionController {
 
     @FXML
     private void handleSave() {
-        User u = SessionManager.getCurrentUser();
-        if (u == null) return;
-        if (AdminUi.text(firstField).isEmpty() || AdminUi.text(lastField).isEmpty()) {
-            AdminUi.warn("First and last name are required.");
-            return;
-        }
-        if (!AdminUi.validEmail(AdminUi.text(emailField))) {
-            AdminUi.warn("Enter a valid email address.");
-            return;
-        }
+        AdminProfileData data = new AdminProfileData(AdminUi.text(firstField), AdminUi.text(lastField),
+                AdminUi.text(emailField), AdminUi.text(phoneField), AdminUi.text(nicField), dobPicker.getValue(),
+                AdminUi.text(streetField), AdminUi.text(cityField), AdminUi.text(postalField),
+                AdminUi.text(countryField), AdminUi.text(pictureField));
         try {
-            AdminDAO.updateProfile(u.getUserId(), AdminUi.text(firstField), AdminUi.text(lastField),
-                    AdminUi.text(emailField), AdminUi.text(phoneField), AdminUi.text(nicField), dobPicker.getValue(),
-                    AdminUi.text(streetField), AdminUi.text(cityField), AdminUi.text(postalField),
-                    AdminUi.text(countryField), AdminUi.text(pictureField));
+            profileService.saveProfile(data);
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
+            return;
         } catch (SQLException e) {
             AdminUi.error(e);
             return;
         }
-        // keep the logged-in session in step with the database, then refresh the header
-        u.setFirstName(AdminUi.text(firstField));
-        u.setLastName(AdminUi.text(lastField));
-        u.setEmail(AdminUi.text(emailField));
-        u.setPhone(AdminUi.text(phoneField));
-        u.setNic(AdminUi.text(nicField));
-        u.setDob(dobPicker.getValue());
-        u.setStreet(AdminUi.text(streetField));
-        u.setCity(AdminUi.text(cityField));
-        u.setPostalCode(AdminUi.text(postalField));
-        u.setCountry(AdminUi.text(countryField));
-        u.setProfilePicturePath(AdminUi.text(pictureField));
-        AdminDashboardController.refreshProfile();
+        AdminDashboardController.refreshProfile();      // the header shows the new name / picture
         AdminUi.info("Profile updated.");
     }
 
     @FXML
     private void handleChangePassword() {
-        User u = SessionManager.getCurrentUser();
-        if (u == null) return;
-        String cur = currentPw.getText() == null ? "" : currentPw.getText();
-        String nw = newPw.getText() == null ? "" : newPw.getText();
-        String cf = confirmPw.getText() == null ? "" : confirmPw.getText();
-        if (cur.isEmpty()) { AdminUi.warn("Enter your current password."); return; }
-        if (nw.length() < 6) { AdminUi.warn("New password must be at least 6 characters."); return; }
-        if (!nw.equals(cf)) { AdminUi.warn("New password and confirmation do not match."); return; }
         try {
-            if (AdminDAO.changePassword(u.getUserId(), cur, nw)) {
-                currentPw.clear();
-                newPw.clear();
-                confirmPw.clear();
-                AdminUi.info("Password changed.");
-            } else {
-                AdminUi.warn("Current password is incorrect.");
-            }
+            profileService.changePassword(currentPw.getText(), newPw.getText(), confirmPw.getText());
+            currentPw.clear();
+            newPw.clear();
+            confirmPw.clear();
+            AdminUi.info("Password changed.");
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
