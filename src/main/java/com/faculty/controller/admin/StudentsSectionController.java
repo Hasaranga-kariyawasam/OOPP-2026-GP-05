@@ -1,10 +1,11 @@
 package com.faculty.controller.admin;
 
-import com.faculty.dao.admin.AdminDAO;
-import com.faculty.util.admin.AdminDb;
-import com.faculty.util.admin.AdminDb.Item;
+import com.faculty.exception.AdminValidationException;
+import com.faculty.model.admin.AdminOption;
+import com.faculty.model.admin.AdminStudent;
+import com.faculty.service.admin.AdminLookupService;
+import com.faculty.service.admin.AdminStudentService;
 import com.faculty.util.admin.AdminUi;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -17,13 +18,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-/** Manage Students: list + search + register / update / delete (admin section "students"). */
+/** Manage Students: list + search + register / update / delete (admin section "students"). UI only. */
 public class StudentsSectionController {
 
-    private static final String[] HEADERS = {"Reg. Number", "Name", "Username", "Email", "Batch", "Status", "Department"};
-    // hidden trailing values of each row: 7 user_id, 8 first, 9 last, 10 intake, 11 dep_id
-
-    @FXML private TableView<ObservableList<String>> table;
+    @FXML private TableView<AdminStudent> table;
     @FXML private TextField searchField;
     @FXML private Label countLabel;
     @FXML private TextField regField;
@@ -34,16 +32,28 @@ public class StudentsSectionController {
     @FXML private TextField batchField;
     @FXML private PasswordField passwordField;
     @FXML private ComboBox<String> statusBox;
-    @FXML private ComboBox<Item> deptBox;
+    @FXML private ComboBox<AdminOption> deptBox;
     @FXML private DatePicker intakePicker;
+
+    private final AdminStudentService studentService = new AdminStudentService();
+    private final AdminLookupService lookupService = new AdminLookupService();
 
     private int selectedUserId = 0;
 
     @FXML
     private void initialize() {
+        AdminUi.prepare(table);
+        AdminUi.column(table, "Reg. Number", AdminStudent::regNumber);
+        AdminUi.column(table, "Name", AdminStudent::fullName);
+        AdminUi.column(table, "Username", AdminStudent::username);
+        AdminUi.column(table, "Email", AdminStudent::email);
+        AdminUi.column(table, "Batch", AdminStudent::batch);
+        AdminUi.column(table, "Status", AdminStudent::status);
+        AdminUi.column(table, "Department", AdminStudent::departmentName);
+
         statusBox.getItems().setAll("REGULAR", "REPEAT", "BATCH_MISSED");
         try {
-            deptBox.getItems().setAll(AdminDb.items("SELECT dep_id, department_name FROM department ORDER BY department_name"));
+            deptBox.getItems().setAll(lookupService.departments());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -57,33 +67,26 @@ public class StudentsSectionController {
     }
 
     private void refresh() {
-        String like = "%" + AdminUi.text(searchField) + "%";
         try {
-            List<List<String>> rows = AdminDb.query(
-                    "SELECT ug.reg_number, CONCAT(u.first_name,' ',u.last_name), u.username, u.email, ug.batch, ug.status, "
-                  + "d.department_name, u.user_id, u.first_name, u.last_name, ug.intake_date, ug.dep_id "
-                  + "FROM undergraduate ug JOIN users u ON u.user_id = ug.stu_id "
-                  + "JOIN department d ON d.dep_id = ug.dep_id "
-                  + "WHERE ug.reg_number LIKE ? OR u.first_name LIKE ? OR u.last_name LIKE ? OR u.username LIKE ? "
-                  + "ORDER BY ug.reg_number", like, like, like, like);
-            AdminUi.fillTable(table, HEADERS, rows);
+            List<AdminStudent> rows = studentService.search(AdminUi.text(searchField));
+            AdminUi.show(table, rows);
             countLabel.setText(rows.size() + " student(s)");
         } catch (SQLException e) {
             AdminUi.error(e);
         }
     }
 
-    private void fillForm(ObservableList<String> r) {
-        selectedUserId = Integer.parseInt(r.get(7));
-        regField.setText(r.get(0));
-        firstField.setText(r.get(8));
-        lastField.setText(r.get(9));
-        usernameField.setText(r.get(2));
-        emailField.setText(r.get(3));
-        batchField.setText(r.get(4));
-        statusBox.setValue(r.get(5));
-        intakePicker.setValue(r.get(10).isEmpty() ? null : LocalDate.parse(r.get(10)));
-        AdminUi.select(deptBox, r.get(11));
+    private void fillForm(AdminStudent s) {
+        selectedUserId = s.userId();
+        regField.setText(s.regNumber());
+        firstField.setText(s.firstName());
+        lastField.setText(s.lastName());
+        usernameField.setText(s.username());
+        emailField.setText(s.email());
+        batchField.setText(s.batch());
+        statusBox.setValue(s.status());
+        intakePicker.setValue(s.intakeDate());
+        AdminUi.select(deptBox, s.depId());
         passwordField.clear();
     }
 
@@ -105,40 +108,27 @@ public class StudentsSectionController {
         }
     }
 
-    /** Returns an error text, or null when the form is fine. */
-    private String validate(boolean creating) {
-        if (!AdminUi.text(regField).matches("TG/\\d{4}/\\d{4}")) return "Registration number must look like TG/2023/1753.";
-        if (AdminUi.text(firstField).isEmpty() || AdminUi.text(lastField).isEmpty()) return "First and last name are required.";
-        if (AdminUi.text(usernameField).isEmpty()) return "Username is required.";
-        if (!AdminUi.validEmail(AdminUi.text(emailField))) return "Enter a valid email address.";
-        if (AdminUi.text(batchField).isEmpty()) return "Batch is required (e.g. 2023).";
-        if (statusBox.getValue() == null) return "Choose a status.";
-        if (intakePicker.getValue() == null) return "Choose the intake date.";
-        if (deptBox.getValue() == null) return "Choose a department.";
-        String pw = passwordField.getText() == null ? "" : passwordField.getText();
-        if (creating && pw.length() < 6) return "Password must be at least 6 characters.";
-        if (!creating && !pw.isEmpty() && pw.length() < 6) return "New password must be at least 6 characters (or leave it blank).";
-        return null;
+    /** Reads the form into a model object; the service checks it. */
+    private AdminStudent readForm() {
+        return new AdminStudent(selectedUserId, AdminUi.text(regField), AdminUi.text(firstField),
+                AdminUi.text(lastField), AdminUi.text(usernameField), AdminUi.text(emailField),
+                AdminUi.text(batchField), statusBox.getValue(), intakePicker.getValue(),
+                AdminUi.idOf(deptBox), null);
     }
 
     @FXML private void handleSearch() { refresh(); }
 
-    @FXML
-    private void handleClear() {
-        clearForm();
-    }
+    @FXML private void handleClear() { clearForm(); }
 
     @FXML
     private void handleRegister() {
-        String err = validate(true);
-        if (err != null) { AdminUi.warn(err); return; }
         try {
-            AdminDAO.registerStudent(AdminUi.text(regField), AdminUi.text(firstField), AdminUi.text(lastField),
-                    AdminUi.text(usernameField), AdminUi.text(emailField), passwordField.getText(),
-                    AdminUi.text(batchField), statusBox.getValue(), intakePicker.getValue(), deptBox.getValue().id());
+            studentService.register(readForm(), passwordField.getText());
             AdminUi.info("Student registered.");
             clearForm();
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -146,15 +136,12 @@ public class StudentsSectionController {
 
     @FXML
     private void handleUpdate() {
-        if (selectedUserId == 0) { AdminUi.warn("Select a student from the table first."); return; }
-        String err = validate(false);
-        if (err != null) { AdminUi.warn(err); return; }
         try {
-            AdminDAO.updateStudent(selectedUserId, AdminUi.text(regField), AdminUi.text(firstField), AdminUi.text(lastField),
-                    AdminUi.text(usernameField), AdminUi.text(emailField), passwordField.getText(),
-                    AdminUi.text(batchField), statusBox.getValue(), intakePicker.getValue(), deptBox.getValue().id());
+            studentService.update(readForm(), passwordField.getText());
             AdminUi.info("Student updated.");
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -162,12 +149,19 @@ public class StudentsSectionController {
 
     @FXML
     private void handleDelete() {
-        if (selectedUserId == 0) { AdminUi.warn("Select a student from the table first."); return; }
-        if (!AdminUi.confirm("Delete this student and all their attendance, marks and medical records?")) return;
+        if (selectedUserId == 0) {
+            AdminUi.warn("Select a student from the table first.");
+            return;
+        }
+        if (!AdminUi.confirm("Delete this student and all their attendance, marks and medical records?")) {
+            return;
+        }
         try {
-            AdminDAO.deleteUser(selectedUserId);
+            studentService.delete(selectedUserId);
             clearForm();
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }

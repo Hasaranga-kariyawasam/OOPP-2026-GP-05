@@ -1,11 +1,12 @@
 package com.faculty.controller.admin;
 
 import com.faculty.MainApp;
-import com.faculty.config.DBConnection;
 import com.faculty.model.User;
 import com.faculty.model.UserRole;
+import com.faculty.model.admin.DashboardStats;
 import com.faculty.model.student.Undergraduate;
 import com.faculty.service.SessionManager;
+import com.faculty.service.admin.AdminDashboardService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,10 +27,6 @@ import javafx.scene.shape.Circle;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -81,6 +78,8 @@ public class AdminDashboardController {
     @FXML private Label calSelected;
 
     private static AdminDashboardController instance;
+
+    private final AdminDashboardService dashboardService = new AdminDashboardService();
 
     private YearMonth shownMonth = YearMonth.now();
     private LocalDate selectedDate = LocalDate.now();
@@ -194,48 +193,26 @@ public class AdminDashboardController {
     // --------------------------------------------------------------- dashboard stats
 
     private void loadStats() {
-        statStudents.setText(count("SELECT COUNT(*) FROM undergraduate"));
-        statCourses.setText(count("SELECT COUNT(*) FROM course"));
-        statFaculty.setText(count("SELECT COUNT(*) FROM users WHERE role IN ('LECTURER','TECHNICAL_OFFICER')"));
-
-        statRegular.setText(count("SELECT COUNT(*) FROM undergraduate WHERE status = 'REGULAR'"));
-        statRepeat.setText(count("SELECT COUNT(*) FROM undergraduate WHERE status = 'REPEAT'"));
-        statBatchMissed.setText(count("SELECT COUNT(*) FROM undergraduate WHERE status = 'BATCH_MISSED'"));
-
-        // credit-weighted GPA of every student that has grades
-        String gpa = "(SELECT SUM(g.grade_point * (c.credits_theory + c.credits_practical)) "
-                   + "/ NULLIF(SUM(c.credits_theory + c.credits_practical), 0) AS gpa "
-                   + "FROM grade g JOIN course c ON c.course_id = g.course_id GROUP BY g.stu_id) t";
-        statAvgGpa.setText(scalar("SELECT ROUND(AVG(gpa), 2) FROM " + gpa, ""));
-        statTopGpa.setText(scalar("SELECT ROUND(MAX(gpa), 2) FROM " + gpa, ""));
-        statLowGpa.setText(count("SELECT COUNT(*) FROM " + gpa + " WHERE gpa < 2.0"));
-        statAttendance.setText(scalar("SELECT ROUND(100 * SUM(status = 'PRESENT') / COUNT(*), 1) FROM attendance", "%"));
-        statPendingMedical.setText(count("SELECT COUNT(*) FROM medical_record WHERE approval_status = 'PENDING'"));
-        statNotices.setText(count("SELECT COUNT(*) FROM notice"));
-    }
-
-    /** First column of the first row as text (+ suffix); "-" when there is no data. */
-    private String scalar(String sql, String suffix) {
-        try (Connection con = DBConnection.getConnection();
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            String v = rs.next() ? rs.getString(1) : null;
-            return v == null ? "-" : v + suffix;
-        } catch (SQLException e) {
-            System.err.println("Stat query failed: " + e.getMessage());
-            return "-";
+        DashboardStats st = dashboardService.loadStats();
+        if (st == null) {                       // database problem: show dashes instead of crashing
+            for (Label l : new Label[]{statStudents, statCourses, statFaculty, statRegular, statRepeat, statBatchMissed,
+                    statAvgGpa, statTopGpa, statLowGpa, statAttendance, statPendingMedical, statNotices}) {
+                l.setText("-");
+            }
+            return;
         }
-    }
-
-    private String count(String sql) {
-        try (Connection con = DBConnection.getConnection();
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            return rs.next() ? String.valueOf(rs.getInt(1)) : "0";
-        } catch (SQLException e) {
-            System.err.println("Stat query failed: " + e.getMessage());
-            return "-";
-        }
+        statStudents.setText(String.valueOf(st.students()));
+        statCourses.setText(String.valueOf(st.courses()));
+        statFaculty.setText(String.valueOf(st.faculty()));
+        statRegular.setText(String.valueOf(st.regular()));
+        statRepeat.setText(String.valueOf(st.repeat()));
+        statBatchMissed.setText(String.valueOf(st.batchMissed()));
+        statAvgGpa.setText(st.averageGpa() == null ? "-" : String.format("%.2f", st.averageGpa()));
+        statTopGpa.setText(st.topGpa() == null ? "-" : String.format("%.2f", st.topGpa()));
+        statLowGpa.setText(String.valueOf(st.lowGpaCount()));
+        statAttendance.setText(st.attendancePercent() == null ? "-" : String.format("%.1f%%", st.attendancePercent()));
+        statPendingMedical.setText(String.valueOf(st.pendingMedicals()));
+        statNotices.setText(String.valueOf(st.notices()));
     }
 
     // --------------------------------------------------------------------- calendar

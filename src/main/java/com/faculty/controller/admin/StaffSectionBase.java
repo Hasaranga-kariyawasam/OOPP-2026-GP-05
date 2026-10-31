@@ -1,10 +1,11 @@
 package com.faculty.controller.admin;
 
-import com.faculty.dao.admin.AdminDAO;
-import com.faculty.util.admin.AdminDb;
-import com.faculty.util.admin.AdminDb.Item;
+import com.faculty.exception.AdminValidationException;
+import com.faculty.model.admin.AdminOption;
+import com.faculty.model.admin.AdminStaff;
+import com.faculty.service.admin.AdminLookupService;
+import com.faculty.service.admin.AdminStaffService;
 import com.faculty.util.admin.AdminUi;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,11 +16,10 @@ import javafx.scene.control.TextField;
 import java.sql.SQLException;
 import java.util.List;
 
-/** Shared logic for the Lecturers and Technical Officers screens. */
+/** Shared screen logic for the Lecturers and Technical Officers screens. UI only. */
 public abstract class StaffSectionBase {
 
-    // hidden trailing values of each row: 5 user_id, 6 first, 7 last, 8 dep_id
-    @FXML protected TableView<ObservableList<String>> table;
+    @FXML protected TableView<AdminStaff> table;
     @FXML protected TextField searchField;
     @FXML protected Label countLabel;
     @FXML protected TextField firstField;
@@ -27,8 +27,11 @@ public abstract class StaffSectionBase {
     @FXML protected TextField usernameField;
     @FXML protected TextField emailField;
     @FXML protected PasswordField passwordField;
-    @FXML protected ComboBox<Item> deptBox;
+    @FXML protected ComboBox<AdminOption> deptBox;
     @FXML protected TextField designationField;   // only present on the lecturer screen
+
+    private final AdminStaffService staffService = new AdminStaffService();
+    private final AdminLookupService lookupService = new AdminLookupService();
 
     private int selectedUserId = 0;
 
@@ -44,8 +47,17 @@ public abstract class StaffSectionBase {
 
     @FXML
     public void initialize() {
+        AdminUi.prepare(table);
+        AdminUi.column(table, "Username", AdminStaff::username);
+        AdminUi.column(table, "Name", AdminStaff::fullName);
+        AdminUi.column(table, "Email", AdminStaff::email);
+        AdminUi.column(table, "Department", AdminStaff::departmentName);
+        if (hasDesignation()) {
+            AdminUi.column(table, "Designation", AdminStaff::designation);
+        }
+
         try {
-            deptBox.getItems().setAll(AdminDb.items("SELECT dep_id, department_name FROM department ORDER BY department_name"));
+            deptBox.getItems().setAll(lookupService.departments());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -59,35 +71,24 @@ public abstract class StaffSectionBase {
     }
 
     private void refresh() {
-        String like = "%" + AdminUi.text(searchField) + "%";
         try {
-            List<List<String>> rows = AdminDb.query(
-                    "SELECT u.username, CONCAT(u.first_name,' ',u.last_name), u.email, d.department_name, "
-                  + "COALESCE(l.designation,''), u.user_id, u.first_name, u.last_name, s.dep_id "
-                  + "FROM users u JOIN staff s ON s.staff_id = u.user_id "
-                  + "JOIN department d ON d.dep_id = s.dep_id "
-                  + "LEFT JOIN lecturer l ON l.lecture_id = u.user_id "
-                  + "WHERE u.role = ? AND (u.username LIKE ? OR u.first_name LIKE ? OR u.last_name LIKE ? OR u.email LIKE ?) "
-                  + "ORDER BY u.first_name", role(), like, like, like, like);
-            String[] headers = hasDesignation()
-                    ? new String[]{"Username", "Name", "Email", "Department", "Designation"}
-                    : new String[]{"Username", "Name", "Email", "Department"};
-            AdminUi.fillTable(table, headers, rows);
+            List<AdminStaff> rows = staffService.search(role(), AdminUi.text(searchField));
+            AdminUi.show(table, rows);
             countLabel.setText(rows.size() + " " + label().toLowerCase() + "(s)");
         } catch (SQLException e) {
             AdminUi.error(e);
         }
     }
 
-    private void fillForm(ObservableList<String> r) {
-        selectedUserId = Integer.parseInt(r.get(5));
-        usernameField.setText(r.get(0));
-        firstField.setText(r.get(6));
-        lastField.setText(r.get(7));
-        emailField.setText(r.get(2));
-        AdminUi.select(deptBox, r.get(8));
+    private void fillForm(AdminStaff s) {
+        selectedUserId = s.userId();
+        usernameField.setText(s.username());
+        firstField.setText(s.firstName());
+        lastField.setText(s.lastName());
+        emailField.setText(s.email());
+        AdminUi.select(deptBox, s.depId());
         if (hasDesignation()) {
-            designationField.setText(r.get(4));
+            designationField.setText(s.designation());
         }
         passwordField.clear();
     }
@@ -109,19 +110,10 @@ public abstract class StaffSectionBase {
         }
     }
 
-    private String validate(boolean creating) {
-        if (AdminUi.text(firstField).isEmpty() || AdminUi.text(lastField).isEmpty()) return "First and last name are required.";
-        if (AdminUi.text(usernameField).isEmpty()) return "Username is required.";
-        if (!AdminUi.validEmail(AdminUi.text(emailField))) return "Enter a valid email address.";
-        if (deptBox.getValue() == null) return "Choose a department.";
-        String pw = passwordField.getText() == null ? "" : passwordField.getText();
-        if (creating && pw.length() < 6) return "Password must be at least 6 characters.";
-        if (!creating && !pw.isEmpty() && pw.length() < 6) return "New password must be at least 6 characters (or leave it blank).";
-        return null;
-    }
-
-    private String designation() {
-        return hasDesignation() ? AdminUi.text(designationField) : null;
+    private AdminStaff readForm() {
+        return new AdminStaff(selectedUserId, AdminUi.text(usernameField), AdminUi.text(firstField),
+                AdminUi.text(lastField), AdminUi.text(emailField), AdminUi.idOf(deptBox), null,
+                hasDesignation() ? AdminUi.text(designationField) : null);
     }
 
     @FXML public void handleSearch() { refresh(); }
@@ -130,14 +122,13 @@ public abstract class StaffSectionBase {
 
     @FXML
     public void handleRegister() {
-        String err = validate(true);
-        if (err != null) { AdminUi.warn(err); return; }
         try {
-            AdminDAO.registerStaff(role(), AdminUi.text(firstField), AdminUi.text(lastField), AdminUi.text(usernameField),
-                    AdminUi.text(emailField), passwordField.getText(), deptBox.getValue().id(), designation());
+            staffService.register(role(), readForm(), passwordField.getText());
             AdminUi.info(label() + " registered.");
             clearForm();
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -145,15 +136,12 @@ public abstract class StaffSectionBase {
 
     @FXML
     public void handleUpdate() {
-        if (selectedUserId == 0) { AdminUi.warn("Select a " + label().toLowerCase() + " from the table first."); return; }
-        String err = validate(false);
-        if (err != null) { AdminUi.warn(err); return; }
         try {
-            AdminDAO.updateStaff(role(), selectedUserId, AdminUi.text(firstField), AdminUi.text(lastField),
-                    AdminUi.text(usernameField), AdminUi.text(emailField), passwordField.getText(),
-                    deptBox.getValue().id(), designation());
+            staffService.update(role(), readForm(), passwordField.getText());
             AdminUi.info(label() + " updated.");
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
@@ -161,12 +149,19 @@ public abstract class StaffSectionBase {
 
     @FXML
     public void handleDelete() {
-        if (selectedUserId == 0) { AdminUi.warn("Select a " + label().toLowerCase() + " from the table first."); return; }
-        if (!AdminUi.confirm("Delete this " + label().toLowerCase() + "?")) return;
+        if (selectedUserId == 0) {
+            AdminUi.warn("Select a " + label().toLowerCase() + " from the table first.");
+            return;
+        }
+        if (!AdminUi.confirm("Delete this " + label().toLowerCase() + "?")) {
+            return;
+        }
         try {
-            AdminDAO.deleteUser(selectedUserId);
+            staffService.delete(selectedUserId);
             clearForm();
             refresh();
+        } catch (AdminValidationException e) {
+            AdminUi.warn(e.getMessage());
         } catch (SQLException e) {
             AdminUi.error(e);
         }
