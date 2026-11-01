@@ -70,8 +70,8 @@ public class LecturerAttendanceController {
             @Override public LecturerCourse fromString(String s) { return null; }
         });
 
+        courseCombo.valueProperty().addListener((o, a, b) -> loadAttendance());   // before loadCourses(), so the first course loads too
         loadCourses();
-        courseCombo.valueProperty().addListener((o, a, b) -> loadAttendance());
         searchField.textProperty().addListener((o, a, b) -> applyFilter());
     }
 

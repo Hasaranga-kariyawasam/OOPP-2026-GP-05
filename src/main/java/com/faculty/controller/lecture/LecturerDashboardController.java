@@ -8,19 +8,28 @@ import com.faculty.service.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.Locale;
 
 /**
@@ -51,20 +60,39 @@ public class LecturerDashboardController {
     @FXML private Label statStudents;
     @FXML private Label statMaterials;
 
+    // calendar
+    @FXML private GridPane calendarGrid;
+    @FXML private Label calTitle;
+    @FXML private Label calSelected;
+
+    private static LecturerDashboardController instance;
+
     private final LecturerService lecturerService = new LecturerService();
+    private YearMonth shownMonth = YearMonth.now();
+    private LocalDate selectedDate = LocalDate.now();
 
     @FXML
     private void initialize() {
+        instance = this;
         loadProfile();
         loadStats();
         dateLabel.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)));
+        initCalendar();
         setActive(navOverview);
         showOverview();
     }
 
     // ------------------------------------------------------------------ profile
 
+    /** Called by the Edit Profile screen after saving so the top bar shows the new name / picture. */
+    public static void refreshProfile() {
+        if (instance != null) {
+            instance.loadProfile();
+        }
+    }
+
     private void loadProfile() {
+        initialsLabel.setVisible(true);
         User user = SessionManager.getCurrentUser();
         if (user == null) {
             welcomeLabel.setText("Welcome back!");
@@ -77,8 +105,28 @@ public class LecturerDashboardController {
         welcomeLabel.setText("Welcome back, " + safe(user.getFirstName()) + "!");
         profileName.setText(user.getFullName());
         profileMeta.setText(String.format("LC-%04d  |  %s", user.getUserId(), roleText(user.getRole())));
-        initialsLabel.setText(initials(user));
-        avatarCircle.setFill(Color.web("#111827"));
+        Image photo = loadImage(user.getProfilePicturePath());
+        if (photo != null) {
+            avatarCircle.setFill(new ImagePattern(photo));
+            initialsLabel.setVisible(false);
+        } else {
+            avatarCircle.setFill(Color.web("#111827"));
+            initialsLabel.setText(initials(user));
+        }
+    }
+
+    /** Loads the picture file (or URL); null when there is none or it cannot be read. */
+    private Image loadImage(String path) {
+        if (path == null || path.isBlank()) {
+            return null;
+        }
+        try {
+            File file = new File(path);
+            Image img = new Image(file.exists() ? file.toURI().toString() : path, 88, 88, false, true);
+            return img.isError() ? null : img;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private String roleText(UserRole role) {
@@ -109,6 +157,82 @@ public class LecturerDashboardController {
             statStudents.setText("-");
             statMaterials.setText("-");
         }
+    }
+
+    // --------------------------------------------------------------------- calendar
+
+    private void initCalendar() {
+        calendarGrid.getColumnConstraints().clear();
+        for (int i = 0; i < 7; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100.0 / 7);
+            cc.setHgrow(Priority.ALWAYS);
+            calendarGrid.getColumnConstraints().add(cc);
+        }
+        renderCalendar();
+    }
+
+    private void renderCalendar() {
+        calendarGrid.getChildren().clear();
+        calTitle.setText(shownMonth.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+                + " " + shownMonth.getYear());
+
+        String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+        for (int c = 0; c < 7; c++) {
+            Label dow = new Label(dayNames[c]);
+            dow.getStyleClass().add("adm-cal-dow");
+            dow.setMaxWidth(Double.MAX_VALUE);
+            dow.setAlignment(Pos.CENTER);
+            calendarGrid.add(dow, c, 0);
+        }
+
+        LocalDate first = shownMonth.atDay(1);
+        LocalDate start = first.minusDays(first.getDayOfWeek().getValue() % 7);   // week starts on Sunday
+        LocalDate today = LocalDate.now();
+
+        for (int i = 0; i < 42; i++) {                                              // always 6 rows
+            final LocalDate date = start.plusDays(i);
+            Label cell = new Label(String.valueOf(date.getDayOfMonth()));
+            cell.setMaxWidth(Double.MAX_VALUE);
+            cell.setAlignment(Pos.CENTER);
+            cell.getStyleClass().add("adm-cal-day");
+            if (!YearMonth.from(date).equals(shownMonth)) {
+                cell.getStyleClass().add("adm-cal-other");
+            }
+            if (date.equals(selectedDate)) {
+                cell.getStyleClass().add("adm-cal-selected");
+            }
+            if (date.equals(today)) {
+                cell.getStyleClass().add("adm-cal-today");
+            }
+            cell.setOnMouseClicked(e -> {
+                selectedDate = date;
+                shownMonth = YearMonth.from(date);
+                renderCalendar();
+            });
+            calendarGrid.add(cell, i % 7, 1 + i / 7);
+        }
+
+        calSelected.setText(selectedDate.format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)));
+    }
+
+    @FXML
+    private void calPrev() {
+        shownMonth = shownMonth.minusMonths(1);
+        renderCalendar();
+    }
+
+    @FXML
+    private void calNext() {
+        shownMonth = shownMonth.plusMonths(1);
+        renderCalendar();
+    }
+
+    @FXML
+    private void calToday() {
+        shownMonth = YearMonth.now();
+        selectedDate = LocalDate.now();
+        renderCalendar();
     }
 
     // ------------------------------------------------------------------ navigation

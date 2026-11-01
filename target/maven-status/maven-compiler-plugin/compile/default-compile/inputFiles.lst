@@ -4,7 +4,10 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerAttendan
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerCoursesController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerDashboardController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerEligibilityController.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerGpaController.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerGradesController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerMarksController.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerMarksTabsController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerMaterialsController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerMedicalController.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\controller\lecture\LecturerNoticesController.java
@@ -20,6 +23,8 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerAttendanceDAO.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerAttendanceDAOImpl.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerCourseDAO.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerCourseDAOImpl.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerGradeDAO.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerGradeDAOImpl.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerMarksDAO.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerMarksDAOImpl.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\dao\LecturerMaterialDAO.java
@@ -43,6 +48,9 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\admin\Admin.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\AttendanceSummaryRow.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\CourseStudent.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\EligibilityRow.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\GpaSummaryRow.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\GradeLine.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\GradeRow.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\Lecturer.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\LecturerCourse.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\lecture\LecturerMaterial.java
@@ -57,11 +65,13 @@ D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\to\TechnicalOfficer.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\User.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\model\UserRole.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\AuthService.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\GradeScale.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\lecturer\LecturerMaterialService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\lecturer\LecturerService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerAttendanceService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerCourseService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerEligibilityService.java
+D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerGradeService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerMarksService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerMedicalService.java
 D:\OOPP-2026-GP-05\src\main\java\com\faculty\service\LecturerNoticeService.java
