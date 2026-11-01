@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Loaded inside the lecturer dashboard (menu button id="marks"). Three tabs: marks, grades, GPA. -->
+<VBox spacing="10" style="-fx-padding: 24;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.lecture.LecturerMarksTabsController">
+
+    <Label styleClass="adm-page-title" text="Marks" />
+    <Label styleClass="adm-muted" text="Enter marks, then see the final marks, grades and GPA that follow from them." />
+
+    <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <tabs>
+            <Tab text="Marks">
+                <fx:include source="marks_entry.fxml" />
+            </Tab>
+            <Tab fx:id="gradesTab" text="Grades">
+                <fx:include fx:id="grades" source="grades.fxml" />
+            </Tab>
+            <Tab fx:id="gpaTab" text="GPA">
+                <fx:include fx:id="gpa" source="gpa.fxml" />
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>

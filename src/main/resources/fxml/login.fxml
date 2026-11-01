@@ -11,22 +11,32 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="320.0" prefWidth="329.0" style="-fx-background-color: #FBFBFB;" styleClass="login-bg" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.LoginController">
-    <VBox alignment="CENTER" maxHeight="631.0" maxWidth="747.0" prefHeight="354.0" prefWidth="300.0" spacing="12" styleClass="login-card">
-      <ImageView fitHeight="104.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/FOT.png" />
-         </image>
-      </ImageView>
-        <Label styleClass="title" text="Faculty Management System">
+<StackPane styleClass="login-bg" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.LoginController">
+
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="380.0" spacing="14" styleClass="login-card">
+        <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" styleClass="login-logo">
+            <image>
+                <Image url="@../img/FOT.png" />
+            </image>
+        </ImageView>
+        <Label graphicTextGap="3.0" styleClass="login-title" text="Faculty Management System">
          <font>
-            <Font name="Poppins ExtraBold" size="12.0" />
+            <Font name="Poppins Regular" size="12.0" />
          </font></Label>
-        <Label styleClass="subtitle" text="Faculty of Technology - University of Ruhuna" />
-        <Region prefHeight="10" />
-        <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="207.0" promptText="Username" style="-fx-max-width: 400;" />
-        <PasswordField fx:id="passwordField" maxWidth="265.0" onAction="#handleLogin" prefHeight="26.0" prefWidth="265.0" promptText="Password" style="-fx-max-width: 400px;" />
-        <Button maxWidth="Infinity" onAction="#handleLogin" style="-fx-max-width: 350; -fx-border-radius: 100;" styleClass="primary-button" text="Login" />
-        <Label fx:id="errorLabel" styleClass="error-label" wrapText="true" />
+        <Label styleClass="login-subtitle" text="Faculty of Technology - University of Ruhuna">
+         <font>
+            <Font name="Poppins Regular" size="12.0" />
+         </font></Label>
+        <Region prefHeight="6" />
+        <TextField fx:id="usernameField" maxWidth="Infinity" promptText="Username" styleClass="login-field" />
+        <PasswordField fx:id="passwordField" maxWidth="Infinity" onAction="#handleLogin" promptText="Password" styleClass="login-field" />
+        <Button maxWidth="Infinity" onAction="#handleLogin" styleClass="login-button" text="LOGIN" />
+        <Label fx:id="errorLabel" styleClass="login-error" wrapText="true" />
+      <Label alignment="TOP_CENTER" graphicTextGap="2.0" opacity="0.84" prefHeight="18.0" prefWidth="166.0" style="-fx-padding: 0;" text="One Platform for Complete" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
+         <font>
+            <Font name="Poppins Regular" size="12.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_CENTER" lineSpacing="6.0" opacity="0.81" prefHeight="18.0" prefWidth="143.0" text=" Faculty Management" />
     </VBox>
 </StackPane>

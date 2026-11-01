@@ -2,6 +2,10 @@ package com.faculty.dao;
 
 import com.faculty.config.DBConnection;
 import com.faculty.model.*;
+import com.faculty.model.student.Undergraduate;
+import com.faculty.model.to.TechnicalOfficer;
+import com.faculty.model.lecture.Lecturer;
+import com.faculty.model.admin.Admin;
 
 import java.sql.Connection;
 import java.sql.Date;

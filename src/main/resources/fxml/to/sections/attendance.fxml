@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Attendance: Mark / maintain (FR-28, FR-29), batch summary (FR-31), individual summary (FR-32).
+     Theory / practical / combined views (FR-30) and the five 80% scenarios (FR-34). -->
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.to.sections.ToAttendanceController">
+    <VBox spacing="16" maxWidth="Infinity">
+
+        <FlowPane hgap="10" vgap="10" alignment="CENTER_LEFT">
+            <Label styleClass="adm-page-title" text="Attendance" />
+            <Region minWidth="14" />
+            <ToggleButton fx:id="tabMark" selected="true" styleClass="to-seg" text="Mark Attendance" />
+            <ToggleButton fx:id="tabBatch" styleClass="to-seg" text="Batch Summary" />
+            <ToggleButton fx:id="tabStudent" styleClass="to-seg" text="Individual Summary" />
+        </FlowPane>
+
+        <!-- ======================= MARK / MAINTAIN ======================= -->
+        <VBox fx:id="markPane" spacing="16">
+            <VBox spacing="12" styleClass="adm-card">
+                <Label styleClass="adm-card-title" text="Session Details" />
+                <FlowPane hgap="14" vgap="10">
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Course" />
+                        <ComboBox fx:id="markCourse" prefWidth="260.0" promptText="Select course" styleClass="adm-combo" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Component" />
+                        <ComboBox fx:id="markType" prefWidth="130.0" styleClass="adm-combo" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Session No (1-15)" />
+                        <ComboBox fx:id="markSession" prefWidth="110.0" styleClass="adm-combo" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Session Date" />
+                        <DatePicker fx:id="markDate" prefWidth="160.0" styleClass="adm-combo" />
+                    </VBox>
+                </FlowPane>
+                <Label fx:id="markHint" styleClass="to-hint" wrapText="true" />
+                <Label fx:id="editBanner" managed="false" styleClass="to-banner-edit" visible="false" wrapText="true" />
+            </VBox>
+
+            <VBox spacing="12" styleClass="adm-card">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label styleClass="adm-card-title" text="Attendance Sheet" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="sheetSearch" prefWidth="190.0" promptText="Search reg no / name" styleClass="adm-field" />
+                </HBox>
+                <FlowPane hgap="10" vgap="8">
+                    <Button onAction="#markAllPresent" styleClass="adm-btn-light" text="All Present" />
+                    <Button onAction="#markAllAbsent" styleClass="adm-btn-light" text="All Absent" />
+                    <Label fx:id="sheetCounts" styleClass="adm-muted" />
+                </FlowPane>
+                <TableView fx:id="sheetTable" prefHeight="340.0" styleClass="adm-table" />
+                <Label fx:id="markMessage" wrapText="true" />
+                <FlowPane hgap="10" vgap="8">
+                    <Button fx:id="btnSave" onAction="#saveSheet" styleClass="adm-btn" text="Save Attendance" />
+                    <Button fx:id="btnDeleteSession" onAction="#deleteSession" styleClass="adm-btn-danger" text="Delete This Session" />
+                </FlowPane>
+            </VBox>
+        </VBox>
+
+        <!-- ======================= BATCH SUMMARY ======================= -->
+        <VBox fx:id="batchPane" managed="false" spacing="16" visible="false">
+            <VBox spacing="12" styleClass="adm-card">
+                <Label styleClass="adm-card-title" text="Batch Attendance Summary" />
+                <FlowPane hgap="14" vgap="10">
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Course" />
+                        <ComboBox fx:id="batchCourse" prefWidth="260.0" promptText="Select course" styleClass="adm-combo" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Show attendance for" />
+                        <ComboBox fx:id="batchType" prefWidth="230.0" styleClass="adm-combo" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Batch" />
+                        <ComboBox fx:id="batchBatch" prefWidth="150.0" styleClass="adm-combo" />
+                    </VBox>
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Show" />
+                        <ComboBox fx:id="batchScenario" prefWidth="240.0" styleClass="adm-combo" />
+                    </VBox>
+                </FlowPane>
+                <FlowPane hgap="12" vgap="12">
+                    <VBox prefWidth="140.0" styleClass="adm-tile">
+                        <Label styleClass="adm-tile-label" text="Undergraduates" />
+                        <Label fx:id="tileTotal" styleClass="adm-tile-value" text="-" />
+                    </VBox>
+                    <VBox prefWidth="140.0" styleClass="adm-tile">
+                        <Label styleClass="adm-tile-label" text="Eligible (80%+)" />
+                        <Label fx:id="tileEligible" styleClass="adm-tile-value" text="-" />
+                    </VBox>
+                    <VBox prefWidth="140.0" styleClass="adm-tile">
+                        <Label styleClass="adm-tile-label" text="Not eligible" />
+                        <Label fx:id="tileNotEligible" styleClass="adm-tile-value" text="-" />
+                    </VBox>
+                    <VBox prefWidth="140.0" styleClass="adm-tile">
+                        <Label styleClass="adm-tile-label" text="Average" />
+                        <Label fx:id="tileAverage" styleClass="adm-tile-value" text="-" />
+                    </VBox>
+                </FlowPane>
+                <Label fx:id="batchMessage" wrapText="true" />
+                <TableView fx:id="batchTable" prefHeight="380.0" styleClass="adm-table" />
+                <Label styleClass="to-hint" text="Attendance % = sessions attended. After medicals = absences covered by an APPROVED medical are not counted as missed. Eligible = after-medicals % is at least 80%." wrapText="true" />
+            </VBox>
+        </VBox>
+
+        <!-- ======================= INDIVIDUAL SUMMARY ======================= -->
+        <VBox fx:id="studentPane" managed="false" spacing="16" visible="false">
+            <VBox spacing="12" styleClass="adm-card">
+                <Label styleClass="adm-card-title" text="Individual Attendance" />
+                <FlowPane hgap="14" vgap="10">
+                    <VBox spacing="4">
+                        <Label styleClass="adm-label" text="Undergraduate" />
+                        <ComboBox fx:id="indStudent" prefWidth="320.0" promptText="Select undergraduate" styleClass="adm-combo" />
+                    </VBox>
+                </FlowPane>
+                <Label fx:id="indSummaryLabel" styleClass="adm-muted" wrapText="true" />
+                <Label fx:id="indMessage" wrapText="true" />
+                <TableView fx:id="indTable" prefHeight="300.0" styleClass="adm-table" />
+            </VBox>
+            <VBox spacing="12" styleClass="adm-card">
+                <Label fx:id="logTitle" styleClass="adm-card-title" text="Session Log" />
+                <Label fx:id="logHint" styleClass="adm-muted" text="Select a course above to see every session." />
+                <TableView fx:id="logTable" prefHeight="300.0" styleClass="adm-table" />
+            </VBox>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

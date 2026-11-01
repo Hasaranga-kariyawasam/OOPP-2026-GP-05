@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<!-- Edit my profile - everything except username and password (FR-13, BR-02). -->
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.to.sections.ToProfileController">
+    <VBox spacing="16" maxWidth="Infinity">
+        <Label styleClass="adm-page-title" text="Edit Profile" />
+
+        <VBox spacing="14" styleClass="adm-card">
+            <HBox alignment="CENTER_LEFT" spacing="18">
+                <StackPane>
+                    <Circle fx:id="bigAvatar" radius="42.0" styleClass="adm-avatar-big" />
+                    <Label fx:id="bigInitials" styleClass="adm-initials-big" />
+                </StackPane>
+                <VBox spacing="6">
+                    <Label fx:id="nameLabel" styleClass="adm-card-title" />
+                    <Label fx:id="idLabel" styleClass="adm-muted" />
+                    <Button onAction="#choosePicture" styleClass="adm-btn-light" text="Change Picture" />
+                    <Label fx:id="pictureLabel" styleClass="to-hint" />
+                </VBox>
+            </HBox>
+
+            <Label styleClass="adm-label" text="Account (cannot be changed here)" />
+            <FlowPane hgap="14" vgap="10">
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Username" />
+                    <Label fx:id="usernameLabel" minWidth="200.0" styleClass="to-readonly" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Role" />
+                    <Label minWidth="200.0" styleClass="to-readonly" text="Technical Officer" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Password" />
+                    <Label minWidth="200.0" styleClass="to-readonly" text="Changed by the administrator" />
+                </VBox>
+            </FlowPane>
+        </VBox>
+
+        <VBox spacing="12" styleClass="adm-card">
+            <Label styleClass="adm-card-title" text="Personal Details" />
+            <FlowPane hgap="14" vgap="10">
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="First name" />
+                    <TextField fx:id="firstName" prefWidth="220.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Last name" />
+                    <TextField fx:id="lastName" prefWidth="220.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="E-mail" />
+                    <TextField fx:id="email" prefWidth="260.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="NIC" />
+                    <TextField fx:id="nic" prefWidth="180.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Date of birth" />
+                    <DatePicker fx:id="dob" prefWidth="170.0" styleClass="adm-combo" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Phone" />
+                    <TextField fx:id="phone" prefWidth="180.0" promptText="0771234567" styleClass="adm-field" />
+                </VBox>
+            </FlowPane>
+        </VBox>
+
+        <VBox spacing="12" styleClass="adm-card">
+            <Label styleClass="adm-card-title" text="Address" />
+            <FlowPane hgap="14" vgap="10">
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Street" />
+                    <TextField fx:id="street" prefWidth="260.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="City" />
+                    <TextField fx:id="city" prefWidth="180.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Postal code" />
+                    <TextField fx:id="postalCode" prefWidth="120.0" styleClass="adm-field" />
+                </VBox>
+                <VBox spacing="4">
+                    <Label styleClass="adm-label" text="Country" />
+                    <TextField fx:id="country" prefWidth="180.0" styleClass="adm-field" />
+                </VBox>
+            </FlowPane>
+            <Label fx:id="profileMessage" wrapText="true" />
+            <FlowPane hgap="10" vgap="8">
+                <Button onAction="#save" styleClass="adm-btn" text="Save Changes" />
+                <Button onAction="#reset" styleClass="adm-btn-light" text="Reset" />
+            </FlowPane>
+        </VBox>
+    </VBox>
+</ScrollPane>

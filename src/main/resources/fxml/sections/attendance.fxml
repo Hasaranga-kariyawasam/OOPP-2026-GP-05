@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentAttendanceController">
+    <Label styleClass="stu-page-title" text="My Attendance" />
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label styleClass="stu-label" text="Show:" />
+        <ComboBox fx:id="viewBox" prefWidth="250.0" styleClass="stu-combo" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="overallLabel" styleClass="stu-sub-title" />
+    </HBox>
+    <Label minHeight="-Infinity" styleClass="stu-note" text="15 sessions per component. An absence with an APPROVED medical counts as attended. Eligible = 80% or more." wrapText="true" />
+    <TableView fx:id="summaryTable" styleClass="stu-table" VBox.vgrow="ALWAYS" />
+    <Label fx:id="detailTitle" styleClass="stu-sub-title" text="Session Details" />
+    <TableView fx:id="detailTable" prefHeight="190.0" minHeight="120.0" styleClass="stu-table" />
+</VBox>
