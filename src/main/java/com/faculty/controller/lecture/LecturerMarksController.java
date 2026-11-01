@@ -75,9 +75,9 @@ public class LecturerMarksController {
         categoryCombo.setValue("CA");
         deleteButton.setDisable(true);
 
+        courseCombo.valueProperty().addListener((o, a, b) -> loadCourseData());   // before loadCourses(), so the first course loads too
         loadCourses();
 
-        courseCombo.valueProperty().addListener((o, a, b) -> loadCourseData());
         searchField.textProperty().addListener((o, a, b) -> applyFilter());
         table.getSelectionModel().selectedItemProperty().addListener((o, a, m) -> fillForm(m));
         typeCombo.valueProperty().addListener((o, a, b) -> {
@@ -177,7 +177,7 @@ public class LecturerMarksController {
             return;
         }
         try {
-            marksService.deleteMark(selected.getMarkId());
+            marksService.deleteMark(selected.getMarkId(), selected.getCourseId());
             reloadMarks();
             handleClear();
             showOk("Mark deleted.");

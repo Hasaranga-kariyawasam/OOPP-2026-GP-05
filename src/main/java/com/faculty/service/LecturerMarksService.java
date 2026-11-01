@@ -19,6 +19,7 @@ public class LecturerMarksService {
 
     private final LecturerMarksDAO marksDAO = new LecturerMarksDAOImpl();
     private final LecturerCourseService courseService = new LecturerCourseService();
+    private final LecturerGradeService gradeService = new LecturerGradeService();
 
     private Lecturer requireLecturer() {
         User user = SessionManager.getCurrentUser();
@@ -66,19 +67,23 @@ public class LecturerMarksService {
         }
 
         int existing = marksDAO.findMarkId(stuId, courseId, type);
-        if (existing > 0) {
+        boolean added = existing <= 0;
+        if (added) {
+            marksDAO.insert(stuId, courseId, type, category, value);
+        } else {
             marksDAO.update(existing, lecturer.getUserId(), category, value);
-            return false;
         }
-        marksDAO.insert(stuId, courseId, type, category, value);
-        return true;
+        gradeService.syncCourse(courseId);       // final marks / grades follow the marks (FR-22)
+        return added;
     }
 
-    public void deleteMark(int markId) throws SQLException {
+    public void deleteMark(int markId, int courseId) throws SQLException {
         Lecturer lecturer = requireLecturer();
+        courseService.requireMyCourse(courseId);
         if (marksDAO.delete(markId, lecturer.getUserId()) == 0) {
             throw new IllegalArgumentException("That mark could not be deleted.");
         }
+        gradeService.syncCourse(courseId);
     }
 
     /** Marks are out of 100 (project brief). */

@@ -13,12 +13,12 @@ public class LecturerProfileDAOImpl implements LecturerProfileDAO {
 
     private static final String UPDATE =
         "UPDATE users SET first_name = ?, last_name = ?, email = ?, nic = ?, dob = ?, phone = ?, "
-      + "street = ?, city = ?, postal_code = ?, country = ? WHERE user_id = ?";
+      + "street = ?, city = ?, postal_code = ?, country = ?, profile_picture_path = ? WHERE user_id = ?";
 
     @Override
     public void updateProfile(int userId, String firstName, String lastName, String email, String nic,
                               LocalDate dob, String phone, String street, String city,
-                              String postalCode, String country) throws SQLException {
+                              String postalCode, String country, String picturePath) throws SQLException {
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(UPDATE)) {
             ps.setString(1, firstName);
@@ -35,7 +35,8 @@ public class LecturerProfileDAOImpl implements LecturerProfileDAO {
             setNullable(ps, 8, city);
             setNullable(ps, 9, postalCode);
             setNullable(ps, 10, country);
-            ps.setInt(11, userId);
+            setNullable(ps, 11, picturePath);
+            ps.setInt(12, userId);
             ps.executeUpdate();
         }
     }

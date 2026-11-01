@@ -6,6 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 
 import java.sql.SQLException;
 
@@ -16,6 +23,9 @@ public class LecturerProfileController {
     @FXML private Label usernameLabel;
     @FXML private Label designationLabel;
     @FXML private Label messageLabel;
+    @FXML private Circle avatar;
+    @FXML private Label initialsLabel;
+    @FXML private TextField pictureField;
 
     @FXML private TextField firstName;
     @FXML private TextField lastName;
@@ -53,6 +63,8 @@ public class LecturerProfileController {
         city.setText(nz(me.getCity()));
         postalCode.setText(nz(me.getPostalCode()));
         country.setText(nz(me.getCountry()));
+        pictureField.setText(nz(me.getProfilePicturePath()));
+        showAvatar();
     }
 
     @FXML
@@ -60,9 +72,10 @@ public class LecturerProfileController {
         try {
             service.save(firstName.getText(), lastName.getText(), email.getText(), nic.getText(),
                     dob.getValue(), phone.getText(), street.getText(), city.getText(),
-                    postalCode.getText(), country.getText());
+                    postalCode.getText(), country.getText(), pictureField.getText());
             fill(service.getCurrent());
-            showMessage("Profile saved. Your name in the top bar updates the next time you log in.", true);
+            LecturerDashboardController.refreshProfile();      // top bar shows the new name / picture
+            showMessage("Profile saved.", true);
         } catch (IllegalArgumentException e) {
             showMessage(e.getMessage(), false);
         } catch (SQLException | SecurityException e) {
@@ -76,6 +89,54 @@ public class LecturerProfileController {
         fill(service.getCurrent());
         messageLabel.setVisible(false);
         messageLabel.setManaged(false);
+    }
+
+    // ------------------------------------------------------------ profile picture
+
+    @FXML
+    private void handleChoosePicture() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose profile picture");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+        File f = fc.showOpenDialog(avatar.getScene().getWindow());
+        if (f != null) {
+            pictureField.setText(f.getAbsolutePath());
+            showAvatar();
+        }
+    }
+
+    @FXML
+    private void handleRemovePicture() {
+        pictureField.clear();
+        showAvatar();
+    }
+
+    /** Shows the chosen picture in the circle, or the initials when there is none (or it cannot be read). */
+    private void showAvatar() {
+        String path = pictureField.getText() == null ? "" : pictureField.getText().trim();
+        Image img = null;
+        if (!path.isEmpty()) {
+            try {
+                File f = new File(path);
+                img = new Image(f.exists() ? f.toURI().toString() : path, 120, 120, false, true);
+                if (img.isError()) {
+                    img = null;
+                }
+            } catch (Exception e) {
+                img = null;
+            }
+        }
+        if (img != null) {
+            avatar.setFill(new ImagePattern(img));
+            initialsLabel.setVisible(false);
+        } else {
+            avatar.setFill(Color.web("#111827"));
+            String f = firstName.getText() == null ? "" : firstName.getText().trim();
+            String l = lastName.getText() == null ? "" : lastName.getText().trim();
+            String text = (f.isEmpty() ? "" : f.substring(0, 1)) + (l.isEmpty() ? "" : l.substring(0, 1));
+            initialsLabel.setText(text.isEmpty() ? "?" : text.toUpperCase());
+            initialsLabel.setVisible(true);
+        }
     }
 
     private void showMessage(String text, boolean ok) {

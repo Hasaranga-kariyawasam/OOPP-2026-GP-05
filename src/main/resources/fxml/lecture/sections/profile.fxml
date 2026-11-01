@@ -7,12 +7,32 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
 <!-- Edit my profile - everything except username and password (FR-06). -->
 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.lecture.LecturerProfileController">
     <VBox maxWidth="Infinity" spacing="16" style="-fx-padding: 24;">
         <Label styleClass="adm-page-title" text="Edit Profile" />
+
+        <VBox spacing="14" styleClass="adm-card">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <StackPane>
+                    <Circle fx:id="avatar" radius="48.0" styleClass="adm-avatar-big" />
+                    <Label fx:id="initialsLabel" styleClass="adm-initials-big" />
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="4">
+                    <Label styleClass="adm-card-title" text="Profile Picture" />
+                    <Label styleClass="adm-muted" text="Choose a photo from your computer, then press Save Changes." />
+                </VBox>
+            </HBox>
+            <HBox spacing="10">
+                <TextField fx:id="pictureField" editable="false" promptText="No picture selected" styleClass="adm-field" HBox.hgrow="ALWAYS" />
+                <Button onAction="#handleChoosePicture" styleClass="adm-btn-light" text="Choose..." />
+                <Button onAction="#handleRemovePicture" styleClass="adm-btn-light" text="Remove" />
+            </HBox>
+        </VBox>
 
         <VBox spacing="12" styleClass="adm-card">
             <Label fx:id="nameLabel" styleClass="adm-card-title" />

@@ -40,7 +40,8 @@ public class LecturerProfileService {
      * Throws IllegalArgumentException with a message that can be shown on the screen.
      */
     public void save(String firstName, String lastName, String email, String nic, LocalDate dob,
-                     String phone, String street, String city, String postalCode, String country)
+                     String phone, String street, String city, String postalCode, String country,
+                     String picturePath)
             throws SQLException {
         Lecturer me = requireLecturer();
 
@@ -68,7 +69,7 @@ public class LecturerProfileService {
 
         try {
             profileDAO.updateProfile(me.getUserId(), first, last, mail, nicValue, dob, phoneValue,
-                    streetValue, cityValue, postalValue, countryValue);
+                    streetValue, cityValue, postalValue, countryValue, optional(picturePath));
         } catch (SQLIntegrityConstraintViolationException e) {
             String msg = String.valueOf(e.getMessage()).toLowerCase(Locale.ROOT);
             throw new IllegalArgumentException(msg.contains("nic")

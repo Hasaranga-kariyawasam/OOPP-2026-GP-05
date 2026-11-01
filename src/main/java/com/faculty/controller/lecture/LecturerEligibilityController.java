@@ -72,8 +72,8 @@ public class LecturerEligibilityController {
         statusCombo.getItems().addAll(ALL, ELIGIBLE, NOT_ELIGIBLE);
         statusCombo.setValue(ALL);
 
+        courseCombo.valueProperty().addListener((o, a, b) -> loadEligibility());   // before loadCourses(), so the first course loads too
         loadCourses();
-        courseCombo.valueProperty().addListener((o, a, b) -> loadEligibility());
         searchField.textProperty().addListener((o, a, b) -> applyFilter());
         statusCombo.valueProperty().addListener((o, a, b) -> applyFilter());
     }

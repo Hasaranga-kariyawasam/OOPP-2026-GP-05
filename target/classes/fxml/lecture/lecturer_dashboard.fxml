@@ -7,6 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -98,15 +99,28 @@
                         </VBox>
                     </FlowPane>
 
-                    <VBox spacing="12" styleClass="adm-card">
-                        <Label styleClass="adm-card-title" text="Quick Access" />
-                        <FlowPane hgap="12" vgap="12">
-                            <Button id="quick-courses" onAction="#handleQuick" styleClass="adm-quick" text="My Courses" />
-                            <Button id="quick-marks" onAction="#handleQuick" styleClass="adm-quick" text="Enter Marks" />
-                            <Button id="quick-attendance" onAction="#handleQuick" styleClass="adm-quick" text="View Attendance" />
-                            <Button id="quick-materials" onAction="#handleQuick" styleClass="adm-quick" text="Upload Materials" />
-                        </FlowPane>
-                    </VBox>
+                    <HBox alignment="TOP_LEFT" spacing="18">
+                        <VBox spacing="12" styleClass="adm-card" HBox.hgrow="ALWAYS">
+                            <Label styleClass="adm-card-title" text="Quick Access" />
+                            <FlowPane hgap="12" vgap="12">
+                                <Button id="quick-courses" onAction="#handleQuick" styleClass="adm-quick" text="My Courses" />
+                                <Button id="quick-marks" onAction="#handleQuick" styleClass="adm-quick" text="Enter Marks" />
+                                <Button id="quick-attendance" onAction="#handleQuick" styleClass="adm-quick" text="View Attendance" />
+                                <Button id="quick-materials" onAction="#handleQuick" styleClass="adm-quick" text="Upload Materials" />
+                            </FlowPane>
+                        </VBox>
+                        <VBox maxWidth="310.0" minWidth="290.0" prefWidth="300.0" spacing="12" styleClass="adm-card">
+                            <HBox alignment="CENTER_LEFT" spacing="6">
+                                <Label fx:id="calTitle" styleClass="adm-cal-title" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button onAction="#calToday" styleClass="adm-cal-link" text="Today" />
+                                <Button onAction="#calPrev" styleClass="adm-cal-nav" text="&lt;" />
+                                <Button onAction="#calNext" styleClass="adm-cal-nav" text="&gt;" />
+                            </HBox>
+                            <GridPane fx:id="calendarGrid" hgap="2" vgap="2" />
+                            <Label fx:id="calSelected" styleClass="adm-muted" wrapText="true" />
+                        </VBox>
+                    </HBox>
                 </VBox>
             </ScrollPane>
             <StackPane fx:id="sectionHost" managed="false" visible="false" />
