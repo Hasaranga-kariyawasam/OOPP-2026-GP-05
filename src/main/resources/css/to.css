@@ -1,0 +1,108 @@
+/* =====================================================================
+   TECHNICAL OFFICER PANEL - extra styles (to- prefix)
+   The look (colours, cards, buttons, tables, calendar) comes from admin.css so the
+   TO panel always matches the Admin panel. This file only adds what admin.css
+   does not have: segmented tabs, status chips, attendance toggles, timetable rows,
+   notice feed and inline messages.
+   Both files are loaded by to_dashboard.fxml (admin.css first, then this one).
+   ===================================================================== */
+
+/* ---------- segmented tabs (Mark / Batch / Individual) ---------- */
+.to-seg {
+    -fx-background-color: -adm-soft;
+    -fx-background-radius: 8;
+    -fx-text-fill: -adm-text;
+    -fx-font-size: 13px;
+    -fx-padding: 9 20;
+    -fx-cursor: hand;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.to-seg:hover { -fx-background-color: #e2e6ec; }
+.to-seg:selected {
+    -fx-background-color: -adm-ink;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* ---------- chips (status labels) ---------- */
+.to-chip {
+    -fx-background-radius: 20;
+    -fx-padding: 3 12;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+.to-chip-ok      { -fx-background-color: #dcfce7; -fx-text-fill: #166534; }
+.to-chip-bad     { -fx-background-color: #fee2e2; -fx-text-fill: #991b1b; }
+.to-chip-warn    { -fx-background-color: #fef3c7; -fx-text-fill: #92400e; }
+.to-chip-neutral { -fx-background-color: #e5e7eb; -fx-text-fill: #374151; }
+.to-chip-info    { -fx-background-color: #dbeafe; -fx-text-fill: #1e40af; }
+
+/* ---------- Present / Absent toggle inside the attendance table ---------- */
+.to-status-btn {
+    -fx-background-radius: 20;
+    -fx-padding: 4 16;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-min-width: 86;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.to-status-present { -fx-background-color: #dcfce7; -fx-text-fill: #166534; }
+.to-status-present:hover { -fx-background-color: #bbf7d0; }
+.to-status-absent  { -fx-background-color: #fee2e2; -fx-text-fill: #991b1b; }
+.to-status-absent:hover  { -fx-background-color: #fecaca; }
+
+/* ---------- inline messages ---------- */
+.to-msg-ok  { -fx-text-fill: #166534; -fx-font-size: 13px; -fx-font-weight: bold; }
+.to-msg-err { -fx-text-fill: #b91c1c; -fx-font-size: 13px; -fx-font-weight: bold; }
+.to-hint    { -fx-text-fill: -adm-muted; -fx-font-size: 12px; }
+
+/* edit banner ("Editing saved session 3") */
+.to-banner-edit {
+    -fx-background-color: #fef3c7;
+    -fx-background-radius: 8;
+    -fx-padding: 8 14;
+    -fx-text-fill: #92400e;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ---------- timetable ---------- */
+.to-day-title { -fx-text-fill: -adm-text; -fx-font-size: 16px; -fx-font-weight: bold; }
+.to-day-today { -fx-background-color: -adm-ink; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 2 10; -fx-font-size: 11px; -fx-font-weight: bold; }
+.to-slot {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 10;
+    -fx-padding: 10 14;
+}
+.to-slot-time  { -fx-text-fill: -adm-ink; -fx-font-size: 13px; -fx-font-weight: bold; }
+.to-slot-title { -fx-text-fill: -adm-text; -fx-font-size: 13px; -fx-font-weight: bold; }
+.to-slot-meta  { -fx-text-fill: -adm-muted; -fx-font-size: 12px; }
+
+/* ---------- notices ---------- */
+.to-notice-title { -fx-text-fill: -adm-text; -fx-font-size: 16px; -fx-font-weight: bold; }
+.to-notice-meta  { -fx-text-fill: -adm-muted; -fx-font-size: 12px; }
+.to-notice-body  { -fx-text-fill: -adm-text; -fx-font-size: 13px; }
+
+/* ---------- profile ---------- */
+.to-readonly {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 8;
+    -fx-text-fill: -adm-muted;
+    -fx-padding: 8 12;
+}
+
+/* clickable stat tile (Pending medicals) */
+.to-stat-click { -fx-cursor: hand; }
+.to-stat-click:hover { -fx-effect: dropshadow(gaussian, rgba(17,24,39,0.16), 10, 0, 0, 2); }
+
+/* text areas / list rows used inside cards */
+.to-row { -fx-padding: 8 0; -fx-border-color: transparent transparent #eef1f5 transparent; -fx-border-width: 0 0 1 0; }
+
+/* buttons never cut their text ("Attach Docu...") - they keep their preferred width */
+.adm-btn, .adm-btn-light, .adm-btn-danger, .to-seg { -fx-min-width: -fx-pref-width; }
+.adm-btn, .adm-btn-light, .adm-btn-danger { -fx-min-width: use_pref_size; }
+.to-seg { -fx-min-width: use_pref_size; }

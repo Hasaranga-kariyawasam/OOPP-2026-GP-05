@@ -22,3 +22,8 @@ xampp/mysql/data/
 # OS
 .DS_Store
 Thumbs.db
+
+.agentbridge
+
+# Uploaded medical documents
+uploads/medicals/

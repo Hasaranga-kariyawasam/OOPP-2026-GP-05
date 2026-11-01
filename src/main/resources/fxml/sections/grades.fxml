@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12" styleClass="stu-card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentGradesController">
+    <Label styleClass="stu-page-title" text="Grades &amp; GPA" />
+    <FlowPane hgap="12" vgap="12">
+        <VBox minWidth="130.0" prefWidth="150.0" styleClass="stu-tile">
+            <Label styleClass="stu-tile-label" text="CGPA" />
+            <Label fx:id="cgpaLabel" styleClass="stu-tile-value" text="-" />
+        </VBox>
+        <VBox minWidth="130.0" prefWidth="150.0" styleClass="stu-tile">
+            <Label styleClass="stu-tile-label" text="Credits Counted" />
+            <Label fx:id="creditsLabel" styleClass="stu-tile-value" text="-" />
+        </VBox>
+        <VBox minWidth="130.0" prefWidth="150.0" styleClass="stu-tile">
+            <Label styleClass="stu-tile-label" text="Courses Graded" />
+            <Label fx:id="coursesLabel" styleClass="stu-tile-value" text="-" />
+        </VBox>
+    </FlowPane>
+    <Label minHeight="-Infinity" styleClass="stu-note" text="Grades follow UGC Commission Circular No. 12/2024. GPA = sum(grade point x credits) / sum(credits). CA must be 40% or more to sit the final exam." wrapText="true" />
+    <TableView fx:id="gradeTable" styleClass="stu-table" VBox.vgrow="ALWAYS" />
+    <Label styleClass="stu-sub-title" text="SGPA by Semester" />
+    <TableView fx:id="sgpaTable" prefHeight="120.0" minHeight="90.0" styleClass="stu-table" />
+</VBox>

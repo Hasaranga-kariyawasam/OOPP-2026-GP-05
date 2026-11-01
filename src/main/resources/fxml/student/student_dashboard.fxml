@@ -1,23 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.faculty.controller.student.StudentDashboardController">
+<BorderPane stylesheets="@../../css/student.css" styleClass="stu-root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.faculty.controller.student.StudentDashboardController">
+
+    <!-- TOP: logo + system name | notices bell | logged-in student -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-bar">
-            <Label text="Student Dashboard" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" onAction="#handleLogout"/>
+        <HBox alignment="CENTER_LEFT" spacing="14" styleClass="stu-topbar">
+            <StackPane maxHeight="44.0" maxWidth="44.0" minHeight="44.0" minWidth="44.0" prefHeight="44.0" prefWidth="44.0" styleClass="stu-logo-circle">
+                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../img/FOT.png" />
+                    </image>
+                </ImageView>
+            </StackPane>
+            <VBox alignment="CENTER_LEFT" spacing="1">
+                <Label styleClass="stu-top-title" text="Faculty Management System" />
+                <Label styleClass="stu-top-sub" text="Faculty of Technology - University of Ruhuna" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button onAction="#handleBell" styleClass="stu-icon-btn">
+                <graphic>
+                    <SVGPath content="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" styleClass="stu-bell" />
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Notices" />
+                </tooltip>
+            </Button>
+
+            <HBox alignment="CENTER_LEFT" onMouseClicked="#handleProfile" spacing="12" styleClass="stu-profile">
+                <StackPane>
+                    <Circle fx:id="avatarCircle" radius="21.0" styleClass="stu-avatar" />
+                    <Label fx:id="initialsLabel" styleClass="stu-initials" />
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="1">
+                    <Label fx:id="profileName" styleClass="stu-profile-name" />
+                    <Label fx:id="profileMeta" styleClass="stu-profile-meta" />
+                </VBox>
+            </HBox>
         </HBox>
     </top>
 
-    <center>
-        <VBox alignment="CENTER" spacing="10">
-            <Label fx:id="welcomeLabel" styleClass="title"/>
-            <Label fx:id="roleLabel" styleClass="subtitle"/>
+    <!-- LEFT: menu. Every button id = the name of a file in fxml/student/sections/ -->
+    <left>
+        <VBox minWidth="225.0" prefWidth="225.0" spacing="8" styleClass="stu-sidebar">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="stu-navscroll" VBox.vgrow="ALWAYS">
+                <VBox fx:id="navBox" spacing="2">
+                    <Label styleClass="stu-menu-caption" text="DASHBOARD" />
+                    <Button id="overview" fx:id="navOverview" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="Dashboard" />
+                    <Label styleClass="stu-menu-caption" text="ACADEMIC" />
+                    <Button id="courses" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="My Courses" />
+                    <Button id="attendance" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="Attendance" />
+                    <Button id="medical" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="Medical Records" />
+                    <Button id="grades" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="Grades &amp; GPA" />
+                    <Label styleClass="stu-menu-caption" text="NOTICES &amp; SCHEDULE" />
+                    <Button id="timetable" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="My Timetable" />
+                    <Button id="notices" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="Notices" />
+                    <Label styleClass="stu-menu-caption" text="ACCOUNT" />
+                    <Button id="profile" maxWidth="Infinity" onAction="#handleNav" styleClass="stu-nav" text="My Profile" />
+                </VBox>
+            </ScrollPane>
+            <Button maxWidth="Infinity" onAction="#handleLogout" styleClass="stu-signout" text="Sign Out" />
         </VBox>
+    </left>
+
+    <!-- CENTER: overview or the selected section -->
+    <center>
+        <StackPane styleClass="stu-content">
+            <ScrollPane fx:id="overviewPane" fitToWidth="true" hbarPolicy="NEVER" styleClass="stu-scroll">
+                <VBox spacing="18" styleClass="stu-page">
+
+                    <VBox spacing="6" styleClass="stu-banner">
+                        <Label fx:id="welcomeLabel" styleClass="stu-banner-title" wrapText="true" />
+                        <Label styleClass="stu-banner-text" text="Here is a quick look at your academic progress." wrapText="true" />
+                        <Label fx:id="dateLabel" styleClass="stu-banner-date" />
+                    </VBox>
+
+                    <FlowPane hgap="16" vgap="16">
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="stu-stat">
+                            <Label styleClass="stu-stat-label" text="Enrolled Courses" />
+                            <Label fx:id="statCourses" styleClass="stu-stat-value" text="-" />
+                        </VBox>
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="stu-stat">
+                            <Label styleClass="stu-stat-label" text="Overall Attendance" />
+                            <Label fx:id="statAttendance" styleClass="stu-stat-value" text="-" />
+                        </VBox>
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="stu-stat">
+                            <Label styleClass="stu-stat-label" text="Current CGPA" />
+                            <Label fx:id="statCgpa" styleClass="stu-stat-value" text="-" />
+                        </VBox>
+                        <VBox minWidth="170.0" prefWidth="200.0" styleClass="stu-stat">
+                            <Label styleClass="stu-stat-label" text="Notices" />
+                            <Label fx:id="statNotices" styleClass="stu-stat-value" text="-" />
+                        </VBox>
+                    </FlowPane>
+
+                    <VBox spacing="10" styleClass="stu-card">
+                        <Label styleClass="stu-card-title" text="Attendance Alerts" />
+                        <VBox fx:id="alertBox" spacing="6" />
+                    </VBox>
+
+                    <VBox spacing="10" styleClass="stu-card">
+                        <Label styleClass="stu-card-title" text="Latest Notices" />
+                        <VBox fx:id="noticeBox" spacing="8" />
+                    </VBox>
+
+                    <VBox spacing="12" styleClass="stu-card">
+                        <Label styleClass="stu-card-title" text="Quick Access" />
+                        <FlowPane hgap="10" vgap="10">
+                            <Button id="quick-courses" onAction="#handleQuick" styleClass="stu-quick" text="My Courses" />
+                            <Button id="quick-attendance" onAction="#handleQuick" styleClass="stu-quick" text="Attendance" />
+                            <Button id="quick-grades" onAction="#handleQuick" styleClass="stu-quick" text="Grades &amp; GPA" />
+                            <Button id="quick-timetable" onAction="#handleQuick" styleClass="stu-quick" text="My Timetable" />
+                        </FlowPane>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+            <StackPane fx:id="sectionHost" managed="false" visible="false" />
+        </StackPane>
     </center>
 </BorderPane>

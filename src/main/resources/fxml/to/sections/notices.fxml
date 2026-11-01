@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Notices for technical officers (FR-64). Read only. -->
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="adm-scroll" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faculty.controller.to.sections.ToNoticesController">
+    <VBox spacing="16" maxWidth="Infinity">
+        <Label styleClass="adm-page-title" text="Notices" />
+        <Label fx:id="noticeMessage" wrapText="true" />
+        <VBox fx:id="noticeBox" spacing="14" />
+    </VBox>
+</ScrollPane>
